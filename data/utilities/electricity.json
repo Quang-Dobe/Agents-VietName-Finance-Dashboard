@@ -1,0 +1,17 @@
+{
+  "changes": [
+    {
+      "effective_date": "2025-05-10",
+      "decision": "1279/QĐ-BCT",
+      "unit": "đồng/kWh, chưa VAT",
+      "tiers": [
+        {"from_kwh": 0, "to_kwh": 50, "price": 1984},
+        {"from_kwh": 51, "to_kwh": 100, "price": 2050},
+        {"from_kwh": 101, "to_kwh": 200, "price": 2380},
+        {"from_kwh": 201, "to_kwh": 300, "price": 2998},
+        {"from_kwh": 301, "to_kwh": 400, "price": 3350},
+        {"from_kwh": 401, "to_kwh": null, "price": 3460}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-07-03T23:57:54Z",
+  "gold": {
+    "latest": {
+      "date": "2026-07-03",
+      "sjc_sell": 151400.0,
+      "sjc_buy": 148400.0
+    },
+    "delta_1d": null,
+    "delta_7d": null,
+    "spark_30d": [
+      151400.0
+    ]
+  },
+  "fx": {
+    "latest": {
+      "date": "2026-07-03",
+      "vcb_sell": 26460.0,
+      "vcb_buy_transfer": null
+    },
+    "delta_1d": null,
+    "delta_7d": null,
+    "spark_30d": [
+      26460.0
+    ]
+  },
+  "fuel": {
+    "latest": {
+      "effective_date": "2026-07-01",
+      "ron95": 19910.0,
+      "e5ron92": 19350.0,
+      "diesel": null
+    },
+    "delta_period": null,
+    "spark_30d": [
+      19910.0
+    ]
+  },
+  "rates": null,
+  "utilities": {
+    "electricity_effective": "2025-05-10",
+    "tier1_price": 1984,
+    "gas_month": "2026-07",
+    "gas_mien_nam": 522000.0,
+    "gas_delta": null
+  },
+  "flags": []
+}

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cách hoạt động — Giá Việt</title>
+  <meta name="description" content="Giá Việt lấy dữ liệu từ đâu, cập nhật thế nào, và cách đọc các con số.">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="apple-touch-icon" href="assets/logo-180.png">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="brand">
+      <a href="index.html" style="text-decoration:none"><img src="assets/logo.svg" alt="Trang chủ" width="30" height="30"></a>
+      <div><h1>Cách hoạt động</h1></div>
+    </div>
+    <nav><a href="index.html">← Dashboard</a></nav>
+  </header>
+
+  <main class="prose">
+    <p>Giá Việt là bảng theo dõi giá cả tự động. Một chương trình chạy mỗi ngày, đọc giá từ các nguồn công khai, kiểm tra rồi cập nhật lên trang này. Không có ai nhập tay.</p>
+
+    <h2>1. Dữ liệu gồm những gì</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Nhóm</th><th>Nội dung</th><th>Nguồn chính</th><th>Cập nhật</th></tr></thead>
+        <tbody>
+          <tr><td>Vàng</td><td>SJC, DOJI (mua/bán)</td><td>sjc.com.vn, giavang.doji.vn</td><td>Hằng ngày</td></tr>
+          <tr><td>Tỷ giá USD</td><td>Vietcombank + trung tâm SBV</td><td>vietcombank.com.vn, sbv.gov.vn</td><td>Hằng ngày</td></tr>
+          <tr><td>Xăng dầu</td><td>RON95, E5, diesel, dầu hỏa</td><td>petrolimex.com.vn</td><td>Mỗi kỳ điều hành</td></tr>
+          <tr><td>Lãi suất</td><td>~20 ngân hàng, kỳ hạn 1–24 tháng</td><td>webgia.com</td><td>Thứ Hai hằng tuần</td></tr>
+          <tr><td>Điện &amp; Gas</td><td>Biểu giá điện EVN, gas 12kg</td><td>evn.com.vn, vietnambiz.vn</td><td>Khi có thay đổi</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>2. Cập nhật thế nào</h2>
+    <div class="steps">
+      <div class="step"><b>18:05 mỗi ngày</b>Chương trình tự khởi động (sau giờ chốt tỷ giá).</div>
+      <div class="step"><b>Đọc nguồn</b>Lấy giá mới từ các trang chính thức.</div>
+      <div class="step"><b>Kiểm tra chéo</b>So số liệu giữa các nguồn, đánh dấu chỗ bất thường.</div>
+      <div class="step"><b>Đăng lên trang</b>Cập nhật biểu đồ và bảng, lưu lịch sử.</div>
+    </div>
+    <p>Chương trình chạy bằng <b>Claude Code Routine</b>. Toàn bộ mã nguồn và dữ liệu mở công khai trên
+      <a href="https://github.com/quang-dobe/agents-vietname-finance-dashboard">GitHub</a> — ai cũng xem lại được cách tính.</p>
+
+    <h2>3. Đọc số thế nào</h2>
+    <h3>Giá mua / bán</h3>
+    <p>"Mua" là giá nơi bán mua vào từ bạn; "bán" là giá bạn phải trả để mua. Giá bán luôn cao hơn giá mua.</p>
+    <h3>Tỷ giá trung tâm</h3>
+    <p>Mức tham chiếu do Ngân hàng Nhà nước công bố mỗi ngày; tỷ giá ngân hàng dao động quanh mức này.</p>
+    <h3>Kỳ điều hành xăng</h3>
+    <p>Giá xăng dầu được nhà nước điều chỉnh khoảng 10 ngày một lần, nên giá giữ nguyên giữa hai kỳ (biểu đồ dạng bậc).</p>
+    <h3>Bậc thang điện</h3>
+    <p>Điện sinh hoạt tính theo bậc: dùng càng nhiều, giá mỗi kWh ở bậc cao càng đắt.</p>
+
+    <h2>4. Độ tin cậy</h2>
+    <p>Dữ liệu lịch sử (2 năm) được thu thập từ trang thống kê công khai và Wayback Machine — chi tiết ghi trong
+      <a href="https://github.com/quang-dobe/agents-vietname-finance-dashboard/blob/main/data/provenance.md">provenance.md</a>.
+      Dấu <b>⚠</b> nghĩa là số liệu ngày đó lệch bất thường so nguồn khác, cần xem lại. Đây là công cụ tham khảo,
+      không phải tư vấn đầu tư.</p>
+
+    <h2>5. Câu hỏi thường gặp</h2>
+    <h3>Vì sao thiếu một vài ngày?</h3>
+    <p>Nguồn có thể tạm lỗi hôm đó, hoặc là ngày nghỉ không niêm yết. Chỗ thiếu được để trống chứ không bịa số.</p>
+    <h3>Vì sao lãi suất chỉ đổi vào thứ Hai?</h3>
+    <p>Lãi suất thay đổi chậm, nên chỉ chụp một lần mỗi tuần cho gọn.</p>
+    <h3>Số liệu có chính thức không?</h3>
+    <p>Lấy từ nguồn công khai của doanh nghiệp/nhà nước, nhưng có thể chậm hơn hoặc lệch nhẹ so quầy giao dịch. Hãy kiểm tra lại trước khi giao dịch thật.</p>
+  </main>
+
+  <footer class="site">
+    <a href="index.html">← Dashboard</a> ·
+    <a href="https://github.com/quang-dobe/agents-vietname-finance-dashboard">GitHub</a>
+    <p class="disclaimer">Số liệu tổng hợp từ nguồn công khai, chỉ để tham khảo.</p>
+  </footer>
+</body>
+</html>

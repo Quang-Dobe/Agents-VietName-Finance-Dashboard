@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Giá Việt — Vàng, USD, Xăng, Lãi suất</title>
+  <meta name="description" content="Dashboard giá vàng, tỷ giá USD, xăng dầu, lãi suất, điện & gas tại Việt Nam. Cập nhật mỗi ngày 18h.">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="apple-touch-icon" href="assets/logo-180.png">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="brand">
+      <img src="assets/logo.svg" alt="" width="30" height="30">
+      <div>
+        <h1>Giá Việt</h1>
+        <div class="tagline">Vàng · USD · Xăng · Lãi suất · Điện &amp; Gas — cập nhật 18h mỗi ngày</div>
+      </div>
+    </div>
+    <nav><a href="docs.html">Cách hoạt động</a></nav>
+  </header>
+
+  <div id="flags" hidden></div>
+
+  <main>
+    <div class="grid">
+      <a class="card" id="card-gold" href="gold.html" style="--c: var(--c-gold)">
+        <h2>Vàng SJC</h2><p class="big">…</p><p class="deltas"></p>
+        <canvas class="spark"></canvas><span class="more">Chi tiết →</span>
+      </a>
+      <a class="card" id="card-fx" href="fx.html" style="--c: var(--c-fx)">
+        <h2>Tỷ giá USD</h2><p class="big">…</p><p class="deltas"></p>
+        <canvas class="spark"></canvas><span class="more">Chi tiết →</span>
+      </a>
+      <a class="card" id="card-fuel" href="fuel.html" style="--c: var(--c-fuel)">
+        <h2>Xăng dầu</h2><p class="big">…</p><p class="deltas"></p>
+        <canvas class="spark"></canvas><span class="more">Chi tiết →</span>
+      </a>
+      <a class="card" id="card-rates" href="rates.html" style="--c: var(--c-rates)">
+        <h2>Lãi suất tiết kiệm</h2><p class="big">…</p><p class="deltas"></p>
+        <canvas class="spark"></canvas><span class="more">Chi tiết →</span>
+      </a>
+      <a class="card" id="card-utilities" href="utilities.html" style="--c: var(--c-utilities)">
+        <h2>Điện &amp; Gas</h2><p class="big">…</p><p class="deltas"></p>
+        <canvas class="spark"></canvas><span class="more">Chi tiết →</span>
+      </a>
+      <a class="card soon" id="card-correlation" href="correlation.html" style="--c: var(--ink-3)">
+        <h2>Tương quan</h2><p class="big"><span class="unit-sm">Vàng · USD · Lãi suất</span></p>
+        <p class="deltas">So sánh xu hướng</p><span class="more">Xem →</span>
+      </a>
+    </div>
+  </main>
+
+  <footer class="site">
+    <span id="updated"></span> ·
+    <a href="docs.html">Cách hoạt động</a> ·
+    <a href="https://github.com/quang-dobe/agents-vietname-finance-dashboard">Dữ liệu trên GitHub</a>
+    <p class="disclaimer">Số liệu tổng hợp từ nguồn công khai, chỉ để tham khảo.</p>
+  </footer>
+
+  <script src="assets/vendor/chart.umd.min.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    fetch("summary.json", { cache: "no-store" })
+      .then((r) => r.json())
+      .then(renderCards)
+      .catch((e) => { document.getElementById("updated").textContent = "Chưa có dữ liệu tổng hợp."; console.error(e); });
+  </script>
+</body>
+</html>

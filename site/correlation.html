@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tương quan — Giá Việt</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="apple-touch-icon" href="assets/logo-180.png">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="brand">
+      <a href="index.html" style="text-decoration:none"><img src="assets/logo.svg" alt="Trang chủ" width="30" height="30"></a>
+      <div><h1>Tương quan</h1></div>
+    </div>
+    <nav><a href="index.html">← Dashboard</a></nav>
+  </header>
+
+  <main class="detail">
+    <p class="unit">So sánh xu hướng vàng và USD, quy về <b>100</b> tại đầu khung thời gian (để cùng thang đo). Lãi suất sẽ được thêm khi có đủ chuỗi tuần.</p>
+    <div class="ranges" role="tablist">
+      <button data-m="6">6T</button>
+      <button data-m="12" class="active">1N</button>
+      <button data-m="24">2N</button>
+      <button data-m="0">Tất cả</button>
+    </div>
+    <div class="chart-wrap"><div id="chart-host"><canvas id="chart"></canvas></div></div>
+    <p class="unit" style="margin-top:14px">Chỉ số 100 = giá tại ngày đầu khung. Đường đi lên nghĩa là tăng so mốc đó; dùng để so tốc độ tăng/giảm giữa các loại, không phải giá tuyệt đối.</p>
+  </main>
+
+  <footer class="site">
+    <a href="docs.html">Cách hoạt động</a> ·
+    <a href="https://github.com/quang-dobe/agents-vietname-finance-dashboard">GitHub</a>
+    <p class="disclaimer">Số liệu tổng hợp từ nguồn công khai, chỉ để tham khảo.</p>
+  </footer>
+
+  <script src="assets/vendor/chart.umd.min.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    Promise.all([
+      loadCSV("data/gold/history.csv").catch(() => []),
+      loadCSV("data/fx/history.csv").catch(() => []),
+    ]).then(([gold, fx]) => {
+      const goldMap = Object.fromEntries(gold.map((r) => [r.date, num(r.sjc_sell)]));
+      const fxMap = Object.fromEntries(fx.map((r) => [r.date, num(r.vcb_sell)]));
+      const dates = [...new Set([...Object.keys(goldMap), ...Object.keys(fxMap)])].sort();
+      const rows = dates.map((d) => ({ date: d, gold: goldMap[d] ?? null, fx: fxMap[d] ?? null }));
+      const host = document.getElementById("chart-host");
+      let chart = null;
+
+      function indexTo100(view, key) {
+        const first = view.map((r) => r[key]).find((v) => v != null);
+        if (first == null) return view.map(() => null);
+        return view.map((r) => (r[key] == null ? null : (r[key] / first) * 100));
+      }
+      function draw(months) {
+        const view = sliceRange(rows, months);
+        if (chart) chart.destroy();
+        if (view.length < 2) { host.innerHTML = '<p class="empty">Cần nhiều dữ liệu hơn (chạy backfill) để so tương quan.</p>'; return; }
+        host.innerHTML = '<canvas id="chart"></canvas>';
+        makeLineChart(document.getElementById("chart"), view.map((r) => r.date), [
+          { label: "Vàng SJC", color: css("--c-gold"), data: indexTo100(view, "gold") },
+          { label: "USD (VCB)", color: css("--c-fx"), data: indexTo100(view, "fx") },
+        ], { digits: 1, unit: "" });
+      }
+      document.querySelectorAll(".ranges button").forEach((b) => b.addEventListener("click", () => {
+        document.querySelectorAll(".ranges button").forEach((x) => x.classList.remove("active"));
+        b.classList.add("active"); draw(Number(b.dataset.m));
+      }));
+      draw(12);
+    });
+  </script>
+</body>
+</html>

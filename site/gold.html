@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vàng — Giá Việt</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="apple-touch-icon" href="assets/logo-180.png">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="brand">
+      <a href="index.html" style="text-decoration:none"><img src="assets/logo.svg" alt="Trang chủ" width="30" height="30"></a>
+      <div><h1>Vàng miếng</h1></div>
+    </div>
+    <nav><a href="index.html">← Dashboard</a></nav>
+  </header>
+
+  <main class="detail">
+    <p class="unit">Triệu đồng mỗi lượng. SJC lấy tại TP.HCM, DOJI lấy tại Hà Nội (vàng miếng).</p>
+    <div class="ranges" role="tablist">
+      <button data-m="1">1T</button>
+      <button data-m="6">6T</button>
+      <button data-m="12" class="active">1N</button>
+      <button data-m="24">2N</button>
+      <button data-m="0">Tất cả</button>
+    </div>
+    <div class="chart-wrap"><div id="chart-host"><canvas id="chart"></canvas></div></div>
+    <div class="actions">
+      <a href="data/gold/history.csv" download>Tải CSV</a>
+      <button id="toggle-table">Bảng số liệu</button>
+    </div>
+    <div class="table-scroll"><table id="table" hidden></table></div>
+  </main>
+
+  <footer class="site">
+    <a href="docs.html">Cách hoạt động</a> ·
+    <a href="https://github.com/quang-dobe/agents-vietname-finance-dashboard">GitHub</a>
+    <p class="disclaimer">Số liệu tổng hợp từ nguồn công khai, chỉ để tham khảo.</p>
+  </footer>
+
+  <script src="assets/vendor/chart.umd.min.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    loadCSV("data/gold/history.csv").then((rows) => initDetailPage(rows, {
+      series: [
+        { key: "sjc_sell", label: "SJC bán", color: css("--c-gold") },
+        { key: "sjc_buy", label: "SJC mua", color: css("--c-gold"), dim: true },
+        { key: "doji_sell", label: "DOJI bán", color: css("--c-utilities") },
+      ],
+      scale: 1000, digits: 1, unit: " tr/lượng",
+    })).catch((e) => { document.getElementById("chart-host").innerHTML = '<p class="empty">Chưa có dữ liệu.</p>'; console.error(e); });
+  </script>
+</body>
+</html>

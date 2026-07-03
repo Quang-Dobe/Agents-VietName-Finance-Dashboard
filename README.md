@@ -15,8 +15,9 @@ Theo dõi 5 nhóm dữ liệu:
 ## Trạng thái
 
 - [x] Detail plan — xem [`docs/plan/`](docs/plan/00-overview.md)
-- [ ] Skeleton repo (scripts, site, CLAUDE.md, agents)
-- [ ] Backfill 2 năm dữ liệu lịch sử (6 one-off runs)
+- [x] Skeleton repo (scripts, site, CLAUDE.md, agents, workflow Pages) + seed 1 ngày dữ liệu
+- [ ] Verify nguồn live + hoàn thiện `parse_*` (P0.1, cần environment có allowlist)
+- [ ] Backfill 2 năm dữ liệu lịch sử (5 one-off runs)
 - [ ] Bật routine daily 18h VN
 - [ ] GitHub Pages live
 

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Điện & Gas — Giá Việt</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="apple-touch-icon" href="assets/logo-180.png">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="brand">
+      <a href="index.html" style="text-decoration:none"><img src="assets/logo.svg" alt="Trang chủ" width="30" height="30"></a>
+      <div><h1>Điện &amp; Gas</h1></div>
+    </div>
+    <nav><a href="index.html">← Dashboard</a></nav>
+  </header>
+
+  <main class="detail">
+    <h2 style="font-size:17px;margin-bottom:6px">Biểu giá điện sinh hoạt</h2>
+    <p class="unit" id="elec-sub">Đồng mỗi kWh, chưa gồm VAT. Giá bậc thang theo mức tiêu thụ.</p>
+    <div class="chart-wrap"><div id="elec-host"><canvas id="elec-chart"></canvas></div></div>
+    <div class="table-scroll"><table id="elec-table"></table></div>
+
+    <h2 style="font-size:17px;margin:28px 0 6px">Giá gas bình 12kg</h2>
+    <p class="unit">Đồng mỗi bình 12kg, theo miền. Giá điều chỉnh đầu mỗi tháng.</p>
+    <div class="ranges" role="tablist">
+      <button data-m="6">6T</button>
+      <button data-m="12" class="active">1N</button>
+      <button data-m="24">2N</button>
+      <button data-m="0">Tất cả</button>
+    </div>
+    <div class="chart-wrap"><div id="chart-host"><canvas id="chart"></canvas></div></div>
+    <div class="actions">
+      <a href="data/utilities/gas.csv" download>Tải CSV gas</a>
+      <button id="toggle-table">Bảng gas</button>
+    </div>
+    <div class="table-scroll"><table id="table" hidden></table></div>
+  </main>
+
+  <footer class="site">
+    <a href="docs.html">Cách hoạt động</a> ·
+    <a href="https://github.com/quang-dobe/agents-vietname-finance-dashboard">GitHub</a>
+    <p class="disclaimer">Số liệu tổng hợp từ nguồn công khai, chỉ để tham khảo.</p>
+  </footer>
+
+  <script src="assets/vendor/chart.umd.min.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    // Điện: bậc thang mới nhất
+    fetch("data/utilities/electricity.json", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((doc) => {
+        const c = doc.changes[doc.changes.length - 1];
+        document.getElementById("elec-sub").textContent =
+          `Đồng/kWh, chưa VAT. Hiệu lực ${c.effective_date} (QĐ ${c.decision}).`;
+        const labels = c.tiers.map((t) => t.to_kwh ? `${t.from_kwh}–${t.to_kwh}` : `>${t.from_kwh - 1}`);
+        makeLineChart(document.getElementById("elec-chart"), labels,
+          [{ label: "Giá bậc", color: css("--c-utilities"), data: c.tiers.map((t) => t.price) }],
+          { stepped: true, digits: 0, unit: " ₫" });
+        document.getElementById("elec-table").innerHTML =
+          "<thead><tr><th>Bậc (kWh)</th><th>Giá (₫/kWh)</th></tr></thead><tbody>" +
+          c.tiers.map((t, i) => `<tr><td>Bậc ${i + 1}: ${labels[i]}</td><td>${fmtVN(t.price)}</td></tr>`).join("") +
+          "</tbody>";
+      })
+      .catch(() => { document.getElementById("elec-host").innerHTML = '<p class="empty">Chưa có dữ liệu điện.</p>'; });
+
+    // Gas: line theo tháng, 3 miền
+    loadCSV("data/utilities/gas.csv").then((rows) => initDetailPage(rows, {
+      dateKey: "effective_month", stepped: true,
+      series: [
+        { key: "mien_nam", label: "Miền Nam", color: css("--c-utilities") },
+        { key: "mien_bac", label: "Miền Bắc", color: css("--c-fx") },
+        { key: "mien_trung", label: "Miền Trung", color: css("--c-gold") },
+      ],
+      scale: 1, digits: 0, unit: " ₫",
+    })).catch((e) => { document.getElementById("chart-host").innerHTML = '<p class="empty">Chưa có dữ liệu gas.</p>'; console.error(e); });
+  </script>
+</body>
+</html>

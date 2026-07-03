@@ -1,0 +1,11 @@
+# Symlink chỉ dùng cho preview local (workflow Pages tự copy data/)
+site/data
+
+# Checkpoint backfill (chỉ tồn tại trong P1, xóa khi xong)
+# data/backfill-progress.json   # bỏ comment nếu không muốn commit checkpoint
+
+# Rác hệ điều hành / editor
+.DS_Store
+*.swp
+__pycache__/
+*.pyc
