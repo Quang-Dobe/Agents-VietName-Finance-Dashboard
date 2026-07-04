@@ -4,8 +4,10 @@
 Chỉ chạy thứ Hai (orchestrator kiểm soát lịch). %/năm, gửi tại quầy, lãi cuối kỳ.
 Kỳ hạn theo dõi: 1, 3, 6, 12, 24 tháng. 20 mã ngân hàng: xem BANKS bên dưới.
 
-Nguồn: bảng tổng hợp webgia.com/lai-suat/. parse_table là bản đầu — sửa ở lần
-chạy live đầu (self-heal). Ngân hàng thiếu trong nguồn -> bỏ qua, không fail.
+Nguồn (xác nhận live 2026-07-04): **24hmoney.vn/lai-suat-gui-ngan-hang** —
+bảng server-rendered `Ngân hàng | 01 | 03 | 06 | 09 | 12 tháng`, số dạng text.
+(webgia.com/lai-suat JS-load số → KHÔNG parse được bằng fetch; đừng dùng.)
+24hmoney không có cột 24 tháng → term 24 để trống.
 """
 from __future__ import annotations
 
@@ -15,54 +17,84 @@ from datetime import date
 from common import (DATA, DomainBlocked, dump_json, emit, fetch, strip_tags,
                     vn_number)
 
-SOURCE = "https://webgia.com/lai-suat/"
+SOURCE = "https://24hmoney.vn/lai-suat-gui-ngan-hang"
 TERMS = [1, 3, 6, 12, 24]
 
-# Mã ngân hàng -> các biến thể tên xuất hiện trong bảng nguồn (regex, không dấu OK).
+# Mã ngân hàng -> chuỗi tên xuất hiện trong bảng 24hmoney (khớp không phân biệt hoa/thường).
 BANKS = {
-    "VCB": r"Vietcombank|VCB",
-    "BIDV": r"BIDV",
-    "VietinBank": r"VietinBank|Vietin",
-    "Agribank": r"Agribank",
-    "Techcombank": r"Techcombank|TCB",
-    "VPBank": r"VPBank|VPB",
-    "MB": r"\bMB\b|MBBank|MBB",
-    "ACB": r"\bACB\b",
-    "Sacombank": r"Sacombank|STB",
-    "SHB": r"\bSHB\b",
-    "HDBank": r"HDBank|HDB",
-    "VIB": r"\bVIB\b",
-    "TPBank": r"TPBank|TPB",
-    "MSB": r"\bMSB\b|Maritime",
-    "OCB": r"\bOCB\b",
-    "Eximbank": r"Eximbank|EIB",
-    "SeABank": r"SeABank|SeA",
-    "LPBank": r"LPBank|LienViet|Lộc Phát",
-    "NamABank": r"Nam A|NamABank",
-    "BacABank": r"Bac A|BacABank|Bắc Á",
+    "VCB": "Vietcombank",
+    "BIDV": "BIDV",
+    "VietinBank": "VietinBank",
+    "Agribank": "Agribank",
+    "Techcombank": "Techcombank",
+    "VPBank": "VPBank",
+    "MB": "MBBank",
+    "ACB": "ACB",
+    "Sacombank": "Sacombank",
+    "SHB": "SHB",
+    "HDBank": "HDBank",
+    "VIB": "VIB",
+    "TPBank": "TPBank",
+    "MSB": "MSB",
+    "OCB": "OCB",
+    "Eximbank": "Eximbank",
+    "SeABank": "SeABank",
+    "LPBank": "LPBank",
+    "NamABank": "Nam Á Bank",
+    "BacABank": "Bắc Á Bank",
 }
 
 
-def parse_table(html: str) -> list[dict]:
-    """Trả về [{bank, term_months, rate, source_url}] cho các ô đọc được.
+def _term_from_header(cell: str) -> int | None:
+    m = re.search(r"(\d{1,2})\s*tháng", cell, re.I)
+    return int(m.group(1)) if m else None
 
-    Heuristic: cắt HTML theo từng <tr>, dòng nào chứa tên 1 ngân hàng thì đọc
-    dãy % trong dòng, gán lần lượt vào TERMS. Cấu trúc thật cần xác nhận lần
-    chạy đầu — nếu số cột kỳ hạn khác, sửa mapping tại đây và ghi CLAUDE.md.
+
+def _match_bank(name: str) -> str | None:
+    """Khớp tên ô đầu dòng với 1 trong 20 mã (chọn chuỗi khớp dài nhất để tránh nhầm)."""
+    hits = [(code, sub) for code, sub in BANKS.items() if sub.lower() in name.lower()]
+    if not hits:
+        return None
+    return max(hits, key=lambda x: len(x[1]))[0]
+
+
+def parse_table(html: str) -> list[dict]:
+    """Trả về [{bank, term_months, rate, source_url}] cho 20 ngân hàng theo dõi.
+
+    Bảng: dòng đầu là header (map cột -> kỳ hạn), các dòng sau: [tên NH, r1, r3, r6, r9, r12].
+    Ô '-' (thiếu) -> bỏ qua. Chỉ giữ kỳ hạn trong TERMS.
     """
-    rows_html = re.split(r"(?i)<tr[ >]", html)
-    out: list[dict] = []
-    for rh in rows_html:
-        text = strip_tags(rh)
-        bank = next((code for code, pat in BANKS.items() if re.search(pat, text, re.I)), None)
-        if not bank:
+    for t in re.findall(r"(?is)<table.*?</table>", html):
+        rows = []
+        for rh in re.split(r"(?i)<tr[ >]", t):
+            cells = [strip_tags(c) for c in re.findall(r"(?is)<t[dh][^>]*>(.*?)</t[dh]>", rh)]
+            cells = [c for c in cells if c != ""]
+            if cells:
+                rows.append(cells)
+        if not rows or not re.search(r"Ngân hàng", rows[0][0] if rows[0] else "", re.I):
             continue
-        pcts = re.findall(r"(\d{1,2}[.,]\d{1,2})\s*%", text)
-        vals = [vn_number(p) for p in pcts]
-        vals = [v for v in vals if 0.1 <= v <= 15]
-        for term, rate in zip(TERMS, vals):
-            out.append({"bank": bank, "term_months": term, "rate": rate, "source_url": SOURCE})
-    return out
+        # map chỉ số cột -> kỳ hạn (cột 0 là tên NH)
+        col_term = {i: _term_from_header(h) for i, h in enumerate(rows[0]) if i > 0}
+        out: list[dict] = []
+        for r in rows[1:]:
+            code = _match_bank(r[0])
+            if not code:
+                continue
+            for i, term in col_term.items():
+                if term not in TERMS or i >= len(r):
+                    continue
+                cell = r[i].strip()
+                if cell in ("", "-"):
+                    continue
+                try:
+                    rate = vn_number(cell)
+                except ValueError:
+                    continue
+                if 0.1 <= rate <= 15:
+                    out.append({"bank": code, "term_months": term, "rate": rate, "source_url": SOURCE})
+        if out:
+            return out
+    return []
 
 
 def iso_week(d: date) -> str:

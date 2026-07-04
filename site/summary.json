@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-04T02:37:24Z",
+  "generated_at": "2026-07-04T09:02:14Z",
   "gold": {
     "latest": {
       "date": "2026-07-03",
@@ -94,7 +94,15 @@
       19910.0
     ]
   },
-  "rates": null,
+  "rates": {
+    "latest_week": "2026-W27",
+    "top12m": {
+      "bank": "BacABank",
+      "rate": 6.9
+    },
+    "median_12m": 6.1,
+    "n_banks": 20
+  },
   "utilities": {
     "electricity_effective": "2025-05-10",
     "tier1_price": 1984,

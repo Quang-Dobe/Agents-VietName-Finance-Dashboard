@@ -90,7 +90,11 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
 - **Lưu ý:** từ 06/2026 xăng khoáng RON95 được thay bằng E10 RON95 (sinh học); cột `ron95` chứa giá loại RON95 hiện hành, ghi provenance khi có chuyển đổi.
 
 ### Lãi suất — `scripts/crawl_rates.py`
-- Tổng hợp: `https://webgia.com/lai-suat/` — bảng ~40 ngân hàng × kỳ hạn; lọc 20 mã trên. Dự phòng đối chiếu: `24hmoney.vn/lai-suat-gui-ngan-hang`, `laisuattietkiem.vn`.
+- **`https://24hmoney.vn/lai-suat-gui-ngan-hang` (CHÍNH, xác nhận live 2026-07-04):**
+  bảng server-rendered `Ngân hàng | 01 | 03 | 06 | 09 | 12 tháng`, số text, ~38 NH →
+  lọc 20 mã. **Không có cột 24 tháng** → term 24 để trống.
+- webgia.com/lai-suat: **JS-load số** (tên NH có trong HTML nhưng lãi suất do JS chèn)
+  → KHÔNG parse được bằng fetch, đừng dùng. Dự phòng: `laisuattietkiem.vn`.
 
 ### Điện & Gas
 - EVN biểu giá: bài "Biểu giá bán lẻ điện" trên `evn.com.vn` (hiện hành QĐ 1279/QĐ-BCT, hiệu lực 10/05/2025). Dự phòng `evnhanoi.vn/cskh/gia-ban-dien`.
@@ -112,10 +116,11 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
 Bắt buộc (daily): `sjc.com.vn`, `giavang.doji.vn`, `update.giavang.doji.vn`,
 `vietcombank.com.vn`, `portal.vietcombank.com.vn`, `sbv.gov.vn`,
 `dttktt.sbv.gov.vn`, `petrolimex.com.vn`, `evn.com.vn`, `evnhanoi.vn`,
-`webgia.com`, `vietnambiz.vn`.
+`webgia.com`, `vietnambiz.vn`, `24hmoney.vn` (lãi suất),
+`thoibaotaichinhvietnam.vn` (gas).
 
-Backfill/dự phòng: `web.archive.org`, `giavang.org`, `24hmoney.vn`,
-`laisuattietkiem.vn`, `tuoitre.vn`, `thoibaotaichinhvietnam.vn`, `alogas.vn`,
+Backfill/dự phòng: `web.archive.org`, `giavang.org`,
+`laisuattietkiem.vn`, `tuoitre.vn`, `alogas.vn`,
 `pnj.com.vn`. P3 (thêm khi làm): `stooq.com`.
 
 ## Định dạng run-log (`data/run-log.md`, giữ ≤30 mục)

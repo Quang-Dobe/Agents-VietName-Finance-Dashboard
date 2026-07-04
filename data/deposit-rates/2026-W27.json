@@ -1,0 +1,487 @@
+{
+  "week": "2026-W27",
+  "collected_at": "2026-07-04",
+  "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang",
+  "rates": [
+    {
+      "bank": "BacABank",
+      "term_months": 1,
+      "rate": 4.55,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "BacABank",
+      "term_months": 3,
+      "rate": 4.55,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "BacABank",
+      "term_months": 6,
+      "rate": 6.85,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "BacABank",
+      "term_months": 12,
+      "rate": 6.9,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "OCB",
+      "term_months": 1,
+      "rate": 4.75,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "OCB",
+      "term_months": 3,
+      "rate": 4.75,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "OCB",
+      "term_months": 6,
+      "rate": 6.4,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "OCB",
+      "term_months": 12,
+      "rate": 6.7,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VIB",
+      "term_months": 1,
+      "rate": 4.7,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VIB",
+      "term_months": 3,
+      "rate": 4.75,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VIB",
+      "term_months": 6,
+      "rate": 5.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VIB",
+      "term_months": 12,
+      "rate": 6.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "MSB",
+      "term_months": 1,
+      "rate": 4.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "MSB",
+      "term_months": 3,
+      "rate": 4.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "MSB",
+      "term_months": 6,
+      "rate": 6.1,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "MSB",
+      "term_months": 12,
+      "rate": 6.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "LPBank",
+      "term_months": 1,
+      "rate": 4.3,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "LPBank",
+      "term_months": 3,
+      "rate": 4.3,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "LPBank",
+      "term_months": 6,
+      "rate": 6.2,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "LPBank",
+      "term_months": 12,
+      "rate": 6.3,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Techcombank",
+      "term_months": 1,
+      "rate": 4.05,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Techcombank",
+      "term_months": 3,
+      "rate": 4.35,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Techcombank",
+      "term_months": 6,
+      "rate": 6.05,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Techcombank",
+      "term_months": 12,
+      "rate": 6.25,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "NamABank",
+      "term_months": 1,
+      "rate": 4.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "NamABank",
+      "term_months": 3,
+      "rate": 4.6,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "NamABank",
+      "term_months": 6,
+      "rate": 5.6,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "NamABank",
+      "term_months": 12,
+      "rate": 6.2,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "SHB",
+      "term_months": 1,
+      "rate": 4.4,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "SHB",
+      "term_months": 3,
+      "rate": 4.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "SHB",
+      "term_months": 6,
+      "rate": 5.8,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "SHB",
+      "term_months": 12,
+      "rate": 6.2,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "MB",
+      "term_months": 1,
+      "rate": 3.7,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "MB",
+      "term_months": 3,
+      "rate": 4.1,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "MB",
+      "term_months": 6,
+      "rate": 4.6,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "MB",
+      "term_months": 12,
+      "rate": 6.2,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VPBank",
+      "term_months": 1,
+      "rate": 4.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VPBank",
+      "term_months": 3,
+      "rate": 4.65,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VPBank",
+      "term_months": 6,
+      "rate": 5.8,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VPBank",
+      "term_months": 12,
+      "rate": 6.1,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Sacombank",
+      "term_months": 1,
+      "rate": 4.6,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Sacombank",
+      "term_months": 3,
+      "rate": 4.6,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Sacombank",
+      "term_months": 6,
+      "rate": 6.3,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Sacombank",
+      "term_months": 12,
+      "rate": 6.0,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "BIDV",
+      "term_months": 1,
+      "rate": 2.1,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "BIDV",
+      "term_months": 3,
+      "rate": 2.4,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "BIDV",
+      "term_months": 6,
+      "rate": 3.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "BIDV",
+      "term_months": 12,
+      "rate": 5.9,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Agribank",
+      "term_months": 1,
+      "rate": 2.6,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Agribank",
+      "term_months": 3,
+      "rate": 2.9,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Agribank",
+      "term_months": 6,
+      "rate": 4.0,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Agribank",
+      "term_months": 12,
+      "rate": 5.9,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VCB",
+      "term_months": 1,
+      "rate": 2.1,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VCB",
+      "term_months": 3,
+      "rate": 2.4,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VCB",
+      "term_months": 6,
+      "rate": 3.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VCB",
+      "term_months": 12,
+      "rate": 5.9,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VietinBank",
+      "term_months": 1,
+      "rate": 2.1,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VietinBank",
+      "term_months": 3,
+      "rate": 2.4,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VietinBank",
+      "term_months": 6,
+      "rate": 3.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "VietinBank",
+      "term_months": 12,
+      "rate": 5.9,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "TPBank",
+      "term_months": 1,
+      "rate": 4.2,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "TPBank",
+      "term_months": 3,
+      "rate": 4.2,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "TPBank",
+      "term_months": 6,
+      "rate": 5.7,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "TPBank",
+      "term_months": 12,
+      "rate": 5.9,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "ACB",
+      "term_months": 1,
+      "rate": 4.0,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "ACB",
+      "term_months": 3,
+      "rate": 4.4,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "ACB",
+      "term_months": 6,
+      "rate": 4.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "ACB",
+      "term_months": 12,
+      "rate": 5.3,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "HDBank",
+      "term_months": 1,
+      "rate": 3.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "HDBank",
+      "term_months": 3,
+      "rate": 3.6,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "HDBank",
+      "term_months": 6,
+      "rate": 4.9,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "HDBank",
+      "term_months": 12,
+      "rate": 5.2,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "SeABank",
+      "term_months": 1,
+      "rate": 3.95,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "SeABank",
+      "term_months": 3,
+      "rate": 4.45,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "SeABank",
+      "term_months": 6,
+      "rate": 4.75,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "SeABank",
+      "term_months": 12,
+      "rate": 5.1,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Eximbank",
+      "term_months": 1,
+      "rate": 3.5,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Eximbank",
+      "term_months": 3,
+      "rate": 3.6,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Eximbank",
+      "term_months": 6,
+      "rate": 4.7,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    },
+    {
+      "bank": "Eximbank",
+      "term_months": 12,
+      "rate": 5.0,
+      "source_url": "https://24hmoney.vn/lai-suat-gui-ngan-hang"
+    }
+  ]
+}
