@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-04T02:13:40Z",
+  "generated_at": "2026-07-04T02:37:24Z",
   "gold": {
     "latest": {
       "date": "2026-07-03",
@@ -99,8 +99,9 @@
     "electricity_effective": "2025-05-10",
     "tier1_price": 1984,
     "gas_month": "2026-07",
-    "gas_mien_nam": 522000.0,
-    "gas_delta": null
+    "gas_region": "Hà Nội",
+    "gas_price": 502200.0,
+    "gas_delta": -16.0
   },
   "flags": [
     {

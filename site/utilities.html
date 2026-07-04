@@ -70,8 +70,8 @@
     loadCSV("data/utilities/gas.csv").then((rows) => initDetailPage(rows, {
       dateKey: "effective_month", stepped: true,
       series: [
-        { key: "mien_nam", label: "Miền Nam", color: css("--c-utilities") },
-        { key: "mien_bac", label: "Miền Bắc", color: css("--c-fx") },
+        { key: "mien_bac", label: "Miền Bắc (HN)", color: css("--c-utilities") },
+        { key: "mien_nam", label: "Miền Nam", color: css("--c-fx") },
         { key: "mien_trung", label: "Miền Trung", color: css("--c-gold") },
       ],
       scale: 1, digits: 0, unit: " ₫",

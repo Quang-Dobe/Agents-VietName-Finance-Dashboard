@@ -106,9 +106,11 @@ def utilities_block():
         out["tier1_price"] = last["tiers"][0]["price"] if last.get("tiers") else None
     if gas:
         out["gas_month"] = gas[-1]["effective_month"]
-        out["gas_mien_nam"] = _f(gas[-1].get("mien_nam"))
-        out["gas_delta"] = pct(_f(gas[-1].get("mien_nam")),
-                               _f(gas[-2].get("mien_nam")) if len(gas) > 1 else None)
+        # miền Bắc (Hà Nội) là chuỗi đầy đủ nhất → dùng làm giá đại diện trên card
+        out["gas_region"] = "Hà Nội"
+        out["gas_price"] = _f(gas[-1].get("mien_bac"))
+        out["gas_delta"] = pct(_f(gas[-1].get("mien_bac")),
+                               _f(gas[-2].get("mien_bac")) if len(gas) > 1 else None)
     return out or None
 
 

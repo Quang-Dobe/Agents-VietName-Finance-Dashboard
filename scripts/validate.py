@@ -87,16 +87,21 @@ def check_fuel(rows, full, errs, flags):
 
 def check_gas(rows, full, errs, flags):
     rows = rows if full else rows[-2:]
+    lo, hi = SANITY["gas"]
     prev = None
     for r in rows:
-        v = _f(r.get("mien_nam"))
-        lo, hi = SANITY["gas"]
-        if v is None or not (lo < v < hi):
-            errs.append(("gas", r["effective_month"], f"sanity mien_nam={v}"))
-        if prev and v and _f(prev.get("mien_nam")):
-            pv = _f(prev["mien_nam"])
-            if abs(v - pv) / pv > JUMP["gas"]:
-                flags.append(("gas", r["effective_month"], f"gas nhảy {(v-pv)/pv*100:+.1f}% so tháng trước"))
+        present = {reg: _f(r.get(reg)) for reg in ("mien_bac", "mien_trung", "mien_nam") if _f(r.get(reg)) is not None}
+        if not present:
+            errs.append(("gas", r["effective_month"], "không có giá miền nào"))
+        for reg, v in present.items():
+            if not (lo < v < hi):
+                errs.append(("gas", r["effective_month"], f"sanity {reg}={v}"))
+        # jump check trên miền có dữ liệu ổn định nhất (ưu tiên mien_bac)
+        for reg in ("mien_bac", "mien_nam", "mien_trung"):
+            v, pv = present.get(reg), (_f(prev.get(reg)) if prev else None)
+            if v and pv and lo < v < hi and abs(v - pv) / pv > JUMP["gas"]:
+                flags.append(("gas", r["effective_month"], f"{reg} nhảy {(v-pv)/pv*100:+.1f}% so tháng trước"))
+                break
         prev = r
 
 

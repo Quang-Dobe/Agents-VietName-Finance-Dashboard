@@ -138,8 +138,9 @@ function renderCards(s) {
 
   if (s.utilities) {
     const u = s.utilities;
-    const sub = [u.tier1_price ? `Điện bậc 1: ${fmtVN(u.tier1_price)}₫` : "", u.gas_mien_nam ? `Gas 12kg: ${fmtVN(u.gas_mien_nam)}₫` : ""].filter(Boolean).join(" · ");
-    card("utilities", u.gas_mien_nam ? fmtVN(u.gas_mien_nam) + " ₫" : "—", "Gas 12kg (miền Nam)",
+    const gasVal = u.gas_price != null ? u.gas_price : u.gas_mien_nam; // tương thích ngược
+    const sub = [u.tier1_price ? `Điện bậc 1: ${fmtVN(u.tier1_price)}₫` : "", gasVal ? `Gas 12kg: ${fmtVN(gasVal)}₫` : ""].filter(Boolean).join(" · ");
+    card("utilities", gasVal ? fmtVN(gasVal) + " ₫" : "—", `Gas 12kg (${u.gas_region || "Hà Nội"})`,
       u.gas_delta != null ? [["tháng trước", u.gas_delta]] : [], null, css("--c-utilities"), sub);
   }
 }

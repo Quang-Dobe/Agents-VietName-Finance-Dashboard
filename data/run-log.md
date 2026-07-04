@@ -2,6 +2,10 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-07-04 (backfill gas, one-off)
+- gas ✓ (10 tháng 2025-07→2026-07, nguồn thoibaotaichinhvietnam.vn; miền Bắc/HN đầy đủ, CP có)
+- ghi chú: thiếu 2026-01/02/05; miền Trung/Nam thưa. Sửa validate.check_gas cho dữ liệu miền khuyết.
+
 ## 2026-07-04 (backfill 1 năm, one-off)
 - gold ✓ (265 ngày, 2025-07-04→2026-07-03, nguồn webgia)  fx ✓ (364 ngày, VCB API)
 - fuel skip (nguồn ảnh)  gas skip  rates skip  electricity skip

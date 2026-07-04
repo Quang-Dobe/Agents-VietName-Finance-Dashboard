@@ -94,7 +94,14 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
 
 ### Điện & Gas
 - EVN biểu giá: bài "Biểu giá bán lẻ điện" trên `evn.com.vn` (hiện hành QĐ 1279/QĐ-BCT, hiệu lực 10/05/2025). Dự phòng `evnhanoi.vn/cskh/gia-ban-dien`.
-- Gas: `vietnambiz.vn` bài "Giá gas hôm nay 1/<tháng>" đầu mỗi tháng — bình 12kg 3 miền + giá CP. Dự phòng `tuoitre.vn`, `thoibaotaichinhvietnam.vn`.
+- Gas (backfill xác nhận live 2026-07-04): **`thoibaotaichinhvietnam.vn`** — bài THEO THÁNG
+  "Giá gas bán lẻ ... tháng M/YYYY", server-rendered, giá text. Cột `mien_bac` (Petrolimex
+  Hà Nội, gồm VAT) đầy đủ nhất; `mien_trung`/`mien_nam` thưa (nhiều bài chỉ chi tiết HN).
+  CP lấy số "ở mức <X> USD/tấn" (300–900), tránh delta. Parser: `scripts/backfill_gas.py`.
+  **Bẫy đã gặp:** trang có widget thời tiết "Hà Nội 31°C..." ở đầu → phải duyệt MỌI vị trí
+  khớp tên thành phố, chọn chỗ có giá. Nguồn thay thế theo NGÀY: `vietnambiz.vn` bài
+  "Giá gas hôm nay 1/<tháng>" (listing phân trang `/gia-gas/trang-N.html`; lẫn bài giá thế
+  giới USD/mmBTU — lọc bỏ; chỉ có domestic gần đây). Dự phòng thêm `tuoitre.vn`.
 
 ### Backfill (chỉ dùng trong one-off runs, xem `BACKFILL_PROMPTS/`)
 - `webgia.com/gia-vang/sjc/DD-MM-YYYY.html`, `webgia.com/ty-gia/vietcombank/DD-MM-YYYY.html`,
