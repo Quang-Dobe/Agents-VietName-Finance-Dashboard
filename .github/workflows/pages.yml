@@ -10,9 +10,11 @@ permissions:
   pages: write
   id-token: write
 
+# Không hủy deploy đang chạy — hủy giữa chừng dễ làm Pages báo
+# "Deployment failed, try again later". Xếp hàng lần lượt thay vì cancel.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
