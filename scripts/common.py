@@ -46,7 +46,15 @@ def fetch(url: str, retries: int = 2, delay: float = 1.5, timeout: int = 25) -> 
             if e.code in (403, 405, 407):
                 raise DomainBlocked(f"{url} -> HTTP {e.code} (proxy/allowlist)") from e
             last = e
-        except (urllib.error.URLError, TimeoutError, OSError) as e:
+        except urllib.error.URLError as e:
+            # Proxy chặn domain ngoài allowlist trả 403/407 ở tầng CONNECT →
+            # urllib báo "Tunnel connection failed: 403 Forbidden" (URLError, KHÔNG
+            # phải HTTPError). Nhận diện để báo DomainBlocked, đừng nhầm là lỗi parse.
+            reason = str(getattr(e, "reason", e))
+            if re.search(r"[Tt]unnel connection failed:\s*(403|405|407)", reason):
+                raise DomainBlocked(f"{url} -> {reason} (proxy/allowlist)") from e
+            last = e
+        except (TimeoutError, OSError) as e:
             last = e
         if attempt < retries:
             time.sleep(delay * (attempt + 1))
