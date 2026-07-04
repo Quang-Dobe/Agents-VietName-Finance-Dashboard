@@ -139,15 +139,20 @@ function renderScrollableChart(host, labels, series, opts = {}) {
   const innerEl = host.querySelector(".chart-inner");
   const mainCanvas = innerEl.querySelector("canvas");
 
-  const yr = yRange(series);
   const AXIS_H = 30, PAD_TOP = 8;
   const fixX = (a) => { a.height = AXIS_H; };
 
   // ~30 điểm lấp đầy khung nhìn (≈ 1 tháng với dữ liệu ngày). Ít điểm hơn thì lấp đầy.
+  const nPts = labels.length;
   const vw = scrollEl.clientWidth || host.clientWidth || 800;
   const per = vw / 30;
-  const innerW = Math.min(24000, Math.max(vw, Math.round(labels.length * per)));
+  const innerW = Math.min(24000, Math.max(vw, Math.round(nPts * per)));
   innerEl.style.width = innerW + "px";
+
+  // Trục y TỰ THU PHÓNG theo cửa sổ đang xem (mặc định = ~1 tháng mới nhất).
+  const visCount = Math.max(2, Math.min(nPts, Math.round(vw / per)));
+  const rangeFor = (i0, i1) => yRange(series.map((s) => ({ data: s.data.slice(Math.max(0, i0), i1 + 1) })));
+  let yr = rangeFor(nPts - visCount, nPts - 1);
 
   const mk = (s) => ({
     label: s.label, data: s.data, borderColor: s.color, backgroundColor: s.color,
@@ -191,9 +196,33 @@ function renderScrollableChart(host, labels, series, opts = {}) {
     },
   });
 
+  // Cập nhật min/max trục y theo vùng đang nhìn (cả biểu đồ chính lẫn trục cố định).
+  function applyY(i0, i1) {
+    const r = rangeFor(i0, i1);
+    if (r.min === yr.min && r.max === yr.max) return;
+    yr = r;
+    for (const ch of [main, axis]) {
+      ch.options.scales.y.min = r.min;
+      ch.options.scales.y.max = r.max;
+      ch.options.scales.y.ticks.stepSize = r.step;
+      ch.update("none");
+    }
+  }
+  function onScroll() {
+    const i0 = Math.floor((scrollEl.scrollLeft / innerW) * nPts) - 1;
+    const i1 = Math.ceil(((scrollEl.scrollLeft + scrollEl.clientWidth) / innerW) * nPts);
+    applyY(Math.max(0, i0), Math.min(nPts - 1, i1));
+  }
+  let ticking = false;
+  scrollEl.addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { onScroll(); ticking = false; });
+  });
+
   const toEnd = () => { scrollEl.scrollLeft = scrollEl.scrollWidth; };
   toEnd();
-  requestAnimationFrame(toEnd);
+  requestAnimationFrame(() => { toEnd(); onScroll(); });
   if (innerW > vw + 4) {
     const hint = document.createElement("p");
     hint.className = "chart-hint";
@@ -265,7 +294,7 @@ function card(key, big, unit, deltas, spark, color, extra = "") {
   if (spark && spark.length > 1 && sc) {
     sparkline(sc, spark, color);
     sc.setAttribute("aria-label", `${unit}: ${spark.length} điểm, từ ${fmtVN(spark[0])} đến ${fmtVN(spark[spark.length - 1])}`);
-  } else if (sc) sc.remove();
+  } else if (sc) (sc.closest(".spark-wrap") || sc).remove();
 }
 
 function cardEmpty(key, title, msg) {
@@ -273,7 +302,7 @@ function cardEmpty(key, title, msg) {
   if (!el) return;
   el.querySelector(".big").innerHTML = `<span class="unit-sm">${msg}</span>`;
   const sc = el.querySelector(".spark");
-  if (sc) sc.remove();
+  if (sc) (sc.closest(".spark-wrap") || sc).remove();
 }
 
 /* ---- Detail page khung chung ---- */

@@ -89,7 +89,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 8px 20px 48px; }
 }
 .card .unit-sm { color: var(--ink-3); font-size: 12px; font-weight: 400; }
 .card .deltas { font-size: 13px; color: var(--ink-2); display: flex; gap: 12px; flex-wrap: wrap; }
-.card .spark { width: 100%; height: 44px; margin-top: 2px; }
+.card .spark-wrap { position: relative; width: 100%; height: 44px; margin-top: 2px; }
+.card .spark { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
 .card .more { margin-top: auto; color: var(--ink-3); font-size: 13px; padding-top: 6px; }
 .card:hover .more { color: var(--ink-2); }
 .card.soon { opacity: .7; cursor: default; }
