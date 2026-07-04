@@ -95,6 +95,114 @@ function makeLineChart(canvas, labels, series, opts = {}) {
   });
 }
 
+function tooltipCfg(opts) {
+  return {
+    backgroundColor: css("--surface-2"), borderColor: css("--border"), borderWidth: 1,
+    titleColor: css("--ink"), bodyColor: css("--ink-2"), padding: 10,
+    callbacks: { label: (c) => `${c.dataset.label}: ${fmtVN(c.parsed.y, opts.digits || 0)}${opts.unit || ""}` },
+  };
+}
+
+function niceNum(range, round) {
+  const exp = Math.floor(Math.log10(range || 1));
+  const f = (range || 1) / Math.pow(10, exp);
+  const nf = round ? (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10)
+                   : (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10);
+  return nf * Math.pow(10, exp);
+}
+function yRange(series) {
+  let lo = Infinity, hi = -Infinity;
+  for (const s of series) for (const v of s.data) if (v != null && isFinite(v)) { if (v < lo) lo = v; if (v > hi) hi = v; }
+  if (!isFinite(lo)) return { min: 0, max: 1, step: 0.2 };
+  if (lo === hi) { hi = lo + Math.abs(lo) * 0.05 || 1; lo -= Math.abs(lo) * 0.05 || 1; }
+  const step = niceNum(niceNum(hi - lo, false) / 5, true);
+  return { min: Math.floor(lo / step) * step, max: Math.ceil(hi / step) * step, step };
+}
+
+/* Biểu đồ đường CUỘN NGANG: trục y cố định trái + vùng vẽ trượt.
+   Mặc định cuộn hết sang phải (dữ liệu mới nhất ~1 tháng); kéo trái xem thêm.
+   Kích thước khung giữ nguyên; chỉ dữ liệu dày hơn theo px cố định/điểm. */
+function renderScrollableChart(host, labels, series, opts = {}) {
+  applyChartDefaults();
+  // Legend HTML cố định (legend của Chart.js sẽ bị canh giữa canvas rộng → khuất khi cuộn)
+  const legend = series.length > 1
+    ? '<div class="chart-legend">' + series.map((s) =>
+        `<span class="lg"><i style="background:${s.color}${s.dim ? ";opacity:.6" : ""}"></i>${s.label}</span>`).join("") + "</div>"
+    : "";
+  host.innerHTML = legend +
+    '<div class="chart-flex">' +
+    '<div class="chart-yaxis"><canvas></canvas></div>' +
+    '<div class="chart-scroll"><div class="chart-inner"><canvas></canvas></div></div>' +
+    "</div>";
+  const yCanvas = host.querySelector(".chart-yaxis canvas");
+  const scrollEl = host.querySelector(".chart-scroll");
+  const innerEl = host.querySelector(".chart-inner");
+  const mainCanvas = innerEl.querySelector("canvas");
+
+  const yr = yRange(series);
+  const AXIS_H = 30, PAD_TOP = 8;
+  const fixX = (a) => { a.height = AXIS_H; };
+
+  // ~30 điểm lấp đầy khung nhìn (≈ 1 tháng với dữ liệu ngày). Ít điểm hơn thì lấp đầy.
+  const vw = scrollEl.clientWidth || host.clientWidth || 800;
+  const per = vw / 30;
+  const innerW = Math.min(24000, Math.max(vw, Math.round(labels.length * per)));
+  innerEl.style.width = innerW + "px";
+
+  const mk = (s) => ({
+    label: s.label, data: s.data, borderColor: s.color, backgroundColor: s.color,
+    borderWidth: 2, borderDash: s.dim ? [5, 4] : [], pointRadius: 0, pointHoverRadius: 5,
+    tension: 0.15, stepped: opts.stepped ? "before" : false, spanGaps: true,
+  });
+
+  const main = new Chart(mainCanvas, {
+    type: "line",
+    data: { labels, datasets: series.map(mk) },
+    options: {
+      animation: false,
+      layout: { padding: { top: PAD_TOP, right: 12, bottom: 0, left: 0 } },
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: tooltipCfg(opts),
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: Math.max(4, Math.round(innerW / 120)) }, afterFit: fixX },
+        y: { min: yr.min, max: yr.max, grid: { color: css("--grid") }, ticks: { display: false, stepSize: yr.step }, border: { display: false }, afterFit: (a) => { a.width = 0; } },
+      },
+    },
+  });
+
+  // Trục y cố định: cùng min/max + cùng chiều cao vùng vẽ → vạch trùng lưới chính.
+  const axis = new Chart(yCanvas, {
+    type: "line",
+    data: { labels, datasets: series.map((s) => ({ ...mk(s), borderColor: "transparent", backgroundColor: "transparent", pointHoverRadius: 0 })) },
+    options: {
+      animation: false, events: [],
+      layout: { padding: { top: PAD_TOP, right: 0, bottom: 0, left: 4 } },
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: {
+        x: { display: true, grid: { display: false }, ticks: { display: false }, border: { display: false }, afterFit: fixX },
+        // trục y trái chiếm gần hết bề rộng cột → nhãn canh phải, sát vùng vẽ, không bị cắt
+        y: { position: "left", min: yr.min, max: yr.max, grid: { display: false }, border: { display: false },
+             ticks: { callback: (v) => fmtVN(v, opts.digits || 0), color: css("--ink-3"), font: { size: 11 }, stepSize: yr.step, padding: 4 },
+             afterFit: (a) => { a.width = 62; } },
+      },
+    },
+  });
+
+  const toEnd = () => { scrollEl.scrollLeft = scrollEl.scrollWidth; };
+  toEnd();
+  requestAnimationFrame(toEnd);
+  if (innerW > vw + 4) {
+    const hint = document.createElement("p");
+    hint.className = "chart-hint";
+    hint.textContent = "← Kéo ngang để xem dữ liệu cũ hơn";
+    host.appendChild(hint);
+  }
+  return { destroy() { main.destroy(); axis.destroy(); } };
+}
+
 function sparkline(canvas, values, color) {
   applyChartDefaults();
   return new Chart(canvas, {
@@ -182,13 +290,12 @@ function initDetailPage(rows, cfg) {
       wrap.innerHTML = '<p class="empty">Chưa có dữ liệu cho khung thời gian này.</p>';
       return;
     }
-    wrap.innerHTML = '<canvas id="chart"></canvas>';
     const labels = view.map((r) => r[dateKey]);
     const series = cfg.series.map((s) => ({
       label: s.label, color: s.color, dim: s.dim,
       data: view.map((r) => { const v = num(r[s.key]); return v == null ? null : v / scale; }),
     }));
-    chart = makeLineChart(document.getElementById("chart"), labels, series,
+    chart = renderScrollableChart(wrap, labels, series,
       { stepped: cfg.stepped, digits: cfg.digits || 0, unit: cfg.unit || "" });
   }
 

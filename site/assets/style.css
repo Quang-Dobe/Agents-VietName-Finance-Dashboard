@@ -114,6 +114,21 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 8px 20px 48px; }
   border-radius: var(--radius); padding: 14px; position: relative;
 }
 .chart-wrap canvas { width: 100% !important; max-height: 380px; }
+
+/* Biểu đồ cuộn ngang: trục y cố định bên trái, vùng vẽ trượt được (mặc định xem
+   dữ liệu mới nhất; kéo sang trái để xem lịch sử). Kích thước khung không đổi. */
+.chart-flex { display: flex; height: 340px; }
+.chart-yaxis { flex: 0 0 66px; width: 66px; height: 100%; }
+.chart-scroll { flex: 1 1 auto; min-width: 0; height: 100%; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+.chart-inner { height: 100%; }
+.chart-scroll::-webkit-scrollbar { height: 8px; }
+.chart-scroll::-webkit-scrollbar-track { background: transparent; }
+.chart-scroll::-webkit-scrollbar-thumb { background: var(--grid); border-radius: 4px; }
+.chart-scroll { scrollbar-width: thin; scrollbar-color: var(--grid) transparent; }
+.chart-hint { color: var(--ink-3); font-size: 12px; margin: 8px 2px 0; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 0 0 10px 66px; font-size: 13px; color: var(--ink-2); }
+.chart-legend .lg { display: inline-flex; align-items: center; gap: 7px; }
+.chart-legend .lg i { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
 .actions { display: flex; gap: 10px; margin: 14px 0; flex-wrap: wrap; }
 .actions a, .actions button {
   background: var(--surface); color: var(--ink-2);

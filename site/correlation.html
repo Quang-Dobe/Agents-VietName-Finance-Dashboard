@@ -58,8 +58,7 @@
         const view = sliceRange(rows, months);
         if (chart) chart.destroy();
         if (view.length < 2) { host.innerHTML = '<p class="empty">Cần nhiều dữ liệu hơn (chạy backfill) để so tương quan.</p>'; return; }
-        host.innerHTML = '<canvas id="chart"></canvas>';
-        makeLineChart(document.getElementById("chart"), view.map((r) => r.date), [
+        chart = renderScrollableChart(host, view.map((r) => r.date), [
           { label: "Vàng SJC", color: css("--c-gold"), data: indexTo100(view, "gold") },
           { label: "USD (VCB)", color: css("--c-fx"), data: indexTo100(view, "fx") },
         ], { digits: 1, unit: "" });
