@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import re
 import sys
+import time
 from datetime import date
 
 from backfill_common import (daterange, one_year_ago, parse_iso, resume_start,
@@ -33,16 +34,32 @@ def url_for(d: date) -> str:
 
 
 def parse_webgia_sjc(html: str) -> tuple[float, float]:
-    """Lấy (mua, bán) vàng miếng SJC tại TP.HCM từ trang lịch sử webgia."""
-    text = strip_tags(html)
-    m = re.search(r"(SJC|Hồ Chí Minh|TPHCM)", text, re.I)
-    if not m:
-        raise ValueError("không thấy nhãn SJC/HCM")
-    nums = [vn_number(x) for x in re.findall(r"\d[\d.,]{4,}", text[m.end(): m.end() + 400])]
-    good = [n for n in nums if LO < n < HI]
-    if len(good) < 2:
-        raise ValueError(f"không đủ 2 giá: {good}")
-    return good[0], good[1]
+    """Lấy (mua, bán) vàng miếng SJC từ trang lịch sử webgia.
+
+    DOM (xác nhận live 2026-07-04): bảng có header 'Mua vào'/'Bán ra', mỗi dòng
+    là 1 lần cập nhật trong ngày [Lần, Thời gian, Mua vào, Bán ra]. Lấy DÒNG CUỐI
+    (giá chốt ngày). Số dạng '121.300 (+400)' → chỉ lấy '121.300'. SJC đồng giá
+    toàn quốc nên không cần chọn khu vực.
+    """
+    tables = re.findall(r"(?is)<table.*?</table>", html)
+    for t in tables:
+        if not re.search(r"Mua vào", t, re.I) or not re.search(r"Bán ra", t, re.I):
+            continue
+        # Phân biệt bảng vàng với widget "Tỷ giá Vietcombank" ở sidebar (cũng có
+        # Mua vào/Bán ra): bảng vàng có cột 'Lần'/'Thời gian cập nhật'.
+        if not re.search(r"Thời gian|Lần", t, re.I):
+            continue
+        last = None
+        for rh in re.split(r"(?i)<tr[ >]", t):
+            cells = [strip_tags(c) for c in re.findall(r"(?is)<t[dh][^>]*>(.*?)</t[dh]>", rh)]
+            cells = [c for c in cells if c != ""]
+            prices = [vn_number(c) for c in cells if re.match(r"\s*\d[\d.,]{4,}", c)]
+            good = [p for p in prices if LO < p < HI]
+            if len(good) >= 2:
+                last = (good[-2], good[-1])  # 2 số cuối dòng = mua, bán
+        if last:
+            return last
+    raise ValueError("không thấy bảng giá SJC (Mua vào/Bán ra)")
 
 
 def main() -> int:
@@ -55,10 +72,12 @@ def main() -> int:
     end = parse_iso(opt("--to")) if "--to" in args else today
     batch = int(opt("--batch", "60"))
 
+    sleep_s = float(opt("--sleep", "0.4"))
     n_ok = n_skip = n_fail = 0
     since_commit = 0
     for d in daterange(start, end):
         iso = d.isoformat()
+        time.sleep(sleep_s)  # lịch sự với nguồn
         try:
             buy, sell = parse_webgia_sjc(fetch(url_for(d)))
         except DomainBlocked as e:

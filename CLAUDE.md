@@ -57,21 +57,36 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
 
 ## Nguồn (cập nhật ghi chú cấu trúc trang khi self-heal)
 
-> Trạng thái verify: URL lấy từ web search 2026-07-03; **cấu trúc DOM chưa xác nhận
-> live** (môi trường verify chặn fetch khi soạn plan). Lần chạy live đầu tiên:
-> xác nhận DOM, sửa `parse_*` nếu cần, ghi chú lại tại đây.
+> Trạng thái verify: **đã xác nhận live 2026-07-04** cho vàng (webgia) & tỷ giá
+> (VCB API). Ghi chú DOM cập nhật bên dưới. Lưu ý allowlist environment biến động:
+> lúc verify, `sjc.com.vn` vẫn bị chặn; các domain khác (webgia, vietcombank,
+> portal.vcb, petrolimex, evn, vietnambiz, web.archive) đã mở.
 
-### Vàng — `scripts/crawl_gold.py`
-- SJC: `https://sjc.com.vn/gia-vang-online` — bảng mua/bán theo khu vực; lấy TP.HCM, vàng miếng SJC. (DOM: _chưa xác nhận_)
-- DOJI: `https://giavang.doji.vn/` — bảng theo khu vực HN/ĐN/HCM; endpoint dữ liệu khả nghi `update.giavang.doji.vn` (thử nếu HTML khó parse). (DOM: _chưa xác nhận_)
+### Vàng — `scripts/crawl_gold.py` + `scripts/backfill_gold.py`
+- SJC daily: `https://sjc.com.vn/gia-vang-online` — **hiện bị chặn allowlist** (dùng webgia tạm cho tới khi mở).
+- SJC lịch sử (backfill, ĐÃ CHẠY): `https://webgia.com/gia-vang/sjc/DD-MM-YYYY.html` — server-rendered.
+  DOM: bảng có header `Lần | Thời gian cập nhật | Mua vào | Bán ra`; **lấy DÒNG CUỐI**
+  (giá chốt ngày). Số dạng `121.300 (+400)` → chỉ lấy `121.300`. SJC đồng giá toàn quốc.
+  Cảnh báo: trang còn 1 widget sidebar "Tỷ giá Vietcombank" cũng có "Mua vào/Bán ra" →
+  phải lọc bảng có cột `Lần/Thời gian` mới đúng bảng vàng. Ngày nghỉ (T7/CN/lễ) không có bảng → skip.
+- DOJI lịch sử: webgia **404** (`/gia-vang/doji/DD-MM-YYYY.html` không tồn tại) → backfill để DOJI rỗng.
 
-### Tỷ giá — `scripts/crawl_fx.py`
-- VCB XML (thử trước): `https://portal.vietcombank.com.vn/Usercontrols/TVPortal.TyGia/pXML.aspx` — chỉ tỷ giá hiện tại, `<Exrate CurrencyCode="USD" Buy Transfer Sell>`.
-- VCB HTML (fallback + tra cứu theo ngày): `https://www.vietcombank.com.vn/vi-VN/KHCN/Cong-cu-Tien-ich/Ty-gia` — có date-picker; tìm API JSON theo ngày ở lần chạy đầu (nếu có thì dùng cho cả backfill).
+### Tỷ giá — `scripts/crawl_fx.py` + `scripts/backfill_fx.py`
+- **VCB API JSON (TỐT NHẤT, có tham số ngày — dùng cho cả daily lẫn backfill):**
+  `https://www.vietcombank.com.vn/api/exchangerates?date=YYYY-MM-DD`
+  → `{"Date","Data":[{"currencyCode":"USD","cash","transfer","sell"}...]}`. Trả rate mọi
+  ngày (cả cuối tuần). Đây là nguồn chính hiện tại.
+- VCB XML (dự phòng): `https://portal.vietcombank.com.vn/Usercontrols/TVPortal.TyGia/pXML.aspx`
+  — **chỉ tỷ giá hiện tại, BỎ QUA tham số date, giới hạn 1 request/5 phút**. Không dùng cho backfill.
+- webgia FX: bảng lịch sử **JS-load, không có số trong HTML thô** → không parse bằng fetch, đừng dùng.
 - SBV trung tâm: `https://dttktt.sbv.gov.vn/TyGia/faces/TyGiaTrungTam.jspx` — chập chờn, cho phép null.
 
 ### Xăng dầu — `scripts/crawl_fuel.py`
-- Petrolimex thông cáo: `https://www.petrolimex.com.vn/ndi/thong-cao-bao-chi.html` — mỗi kỳ 1 bài, URL: `.../petrolimex-dieu-chinh-gia-xang-dau-tu-...-ngay-DD.M.YYYY.html`. Giá vùng 1 = cột đầu.
+- Petrolimex thông cáo: `https://www.petrolimex.com.vn/ndi/thong-cao-bao-chi.html` (phân trang `/2.html`…`/62.html`);
+  mỗi kỳ 1 bài `.../petrolimex-dieu-chinh-gia-xang-dau-tu-...-ngay-DD.M.YYYY.html`.
+- **CHẶN BACKFILL: bảng giá trong bài là ẢNH, thân bài không có giá dạng text** → `parse_prices`
+  không lấy được bằng fetch (cần OCR). webgia fuel cũng JS-load. → fuel backfill chưa làm được từ
+  môi trường này; daily sẽ tự dựng chuỗi tiến tới, hoặc tìm nguồn text (vietnamnet/thuvienphapluat) sau.
 - **Lưu ý:** từ 06/2026 xăng khoáng RON95 được thay bằng E10 RON95 (sinh học); cột `ron95` chứa giá loại RON95 hiện hành, ghi provenance khi có chuyển đổi.
 
 ### Lãi suất — `scripts/crawl_rates.py`

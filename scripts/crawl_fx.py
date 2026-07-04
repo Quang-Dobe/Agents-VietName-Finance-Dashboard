@@ -10,6 +10,7 @@ fail thì parse trang HTML. parse_* là bản đầu, sửa ở lần chạy liv
 """
 from __future__ import annotations
 
+import json
 import re
 from datetime import date
 
@@ -19,11 +20,23 @@ from common import (DATA, DomainBlocked, append_csv_row, emit, fetch,
 FIELDS = ["date", "vcb_buy_cash", "vcb_buy_transfer", "vcb_sell", "sbv_central"]
 PATH = DATA / "fx" / "history.csv"
 
+# API JSON có tham số ngày (xác nhận live 2026-07-04) — ưu tiên vì rẻ, chính xác,
+# dùng được cho cả backfill: ?date=YYYY-MM-DD -> {"Data":[{currencyCode,cash,transfer,sell}]}
+VCB_API = "https://www.vietcombank.com.vn/api/exchangerates?date={d}"
 VCB_XML = "https://portal.vietcombank.com.vn/Usercontrols/TVPortal.TyGia/pXML.aspx"
 VCB_HTML = "https://www.vietcombank.com.vn/vi-VN/KHCN/Cong-cu-Tien-ich/Ty-gia"
 SBV_URL = "https://dttktt.sbv.gov.vn/TyGia/faces/TyGiaTrungTam.jspx"
 
 LO, HI = 15_000, 50_000
+
+
+def parse_vcb_api(js: str) -> tuple[float, float, float]:
+    """API JSON -> (mua tiền mặt, mua CK, bán) USD."""
+    doc = json.loads(js)
+    row = next((x for x in doc.get("Data", []) if x.get("currencyCode") == "USD"), None)
+    if not row:
+        raise ValueError("API JSON không có USD")
+    return vn_number(row["cash"]), vn_number(row["transfer"]), vn_number(row["sell"])
 
 
 def parse_vcb_xml(xml: str) -> tuple[float, float, float]:
@@ -54,6 +67,13 @@ def parse_vcb_html(html: str) -> tuple[float, float, float]:
 
 
 def get_vcb() -> tuple[float, float, float]:
+    # 1) API JSON theo ngày (tốt nhất) → 2) XML → 3) HTML
+    try:
+        return parse_vcb_api(fetch(VCB_API.format(d=date.today().isoformat())))
+    except DomainBlocked:
+        raise
+    except Exception:
+        pass
     try:
         return parse_vcb_xml(fetch(VCB_XML))
     except DomainBlocked:
