@@ -72,16 +72,19 @@ def check_fx(rows, full, errs, flags):
 
 def check_fuel(rows, full, errs, flags):
     rows = rows if full else rows[-2:]
+    lo, hi = SANITY["fuel"]
     prev = None
     for r in rows:
-        v = _f(r.get("ron95"))
-        lo, hi = SANITY["fuel"]
-        if v is None or not (lo < v < hi):
-            errs.append(("fuel", r["effective_date"], f"sanity ron95={v}"))
-        if prev and v and _f(prev.get("ron95")):
-            pv = _f(prev["ron95"])
-            if abs(v - pv) / pv > JUMP["fuel"]:
-                flags.append(("fuel", r["effective_date"], f"xăng nhảy {(v-pv)/pv*100:+.1f}% so kỳ trước"))
+        present = {c: _f(r.get(c)) for c in ("ron95", "e5ron92", "diesel", "dau_hoa") if _f(r.get(c)) is not None}
+        if not present:
+            errs.append(("fuel", r["effective_date"], "không có giá loại nào"))
+        for c, v in present.items():
+            if not (lo < v < hi):
+                errs.append(("fuel", r["effective_date"], f"sanity {c}={v}"))
+        # jump check trên chuỗi ổn định nhất (e5ron92)
+        v, pv = present.get("e5ron92"), (_f(prev.get("e5ron92")) if prev else None)
+        if v and pv and lo < v < hi and abs(v - pv) / pv > JUMP["fuel"]:
+            flags.append(("fuel", r["effective_date"], f"xăng E5 nhảy {(v-pv)/pv*100:+.1f}% so kỳ trước"))
         prev = r
 
 

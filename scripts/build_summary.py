@@ -69,12 +69,14 @@ def fuel_block():
     rows = read_csv(DATA / "fuel" / "history.csv")
     if not rows:
         return None
-    cur = at(rows, "ron95")
+    # E5 RON92 là chuỗi đầy đủ nhất (backfill tuoitre) → dùng làm giá đại diện.
+    cur = at(rows, "e5ron92")
     return {
-        "latest": {"effective_date": rows[-1]["effective_date"], "ron95": cur,
-                   "e5ron92": at(rows, "e5ron92"), "diesel": at(rows, "diesel")},
-        "delta_period": pct(cur, at(rows, "ron95", 1)),
-        "spark_30d": series(rows, "ron95"),
+        "latest": {"effective_date": rows[-1]["effective_date"], "e5ron92": cur,
+                   "ron95": at(rows, "ron95"), "diesel": at(rows, "diesel")},
+        "primary": "e5ron92",
+        "delta_period": pct(cur, at(rows, "e5ron92", 1)),
+        "spark_30d": series(rows, "e5ron92"),
     }
 
 

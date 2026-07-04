@@ -45,9 +45,9 @@
     loadCSV("data/fuel/history.csv").then((rows) => initDetailPage(rows, {
       dateKey: "effective_date", stepped: true,
       series: [
-        { key: "ron95", label: "RON95", color: css("--c-fuel") },
-        { key: "e5ron92", label: "E5 RON92", color: css("--c-gold") },
+        { key: "e5ron92", label: "E5 RON92", color: css("--c-fuel") },
         { key: "diesel", label: "Dầu diesel", color: css("--c-fx") },
+        { key: "ron95", label: "RON95", color: css("--c-gold") },
       ],
       scale: 1, digits: 0, unit: " ₫",
     })).catch((e) => { document.getElementById("chart-host").innerHTML = '<p class="empty">Chưa có dữ liệu.</p>'; console.error(e); });

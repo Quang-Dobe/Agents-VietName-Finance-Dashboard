@@ -81,13 +81,17 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
 - webgia FX: bảng lịch sử **JS-load, không có số trong HTML thô** → không parse bằng fetch, đừng dùng.
 - SBV trung tâm: `https://dttktt.sbv.gov.vn/TyGia/faces/TyGiaTrungTam.jspx` — chập chờn, cho phép null.
 
-### Xăng dầu — `scripts/crawl_fuel.py`
-- Petrolimex thông cáo: `https://www.petrolimex.com.vn/ndi/thong-cao-bao-chi.html` (phân trang `/2.html`…`/62.html`);
-  mỗi kỳ 1 bài `.../petrolimex-dieu-chinh-gia-xang-dau-tu-...-ngay-DD.M.YYYY.html`.
-- **CHẶN BACKFILL: bảng giá trong bài là ẢNH, thân bài không có giá dạng text** → `parse_prices`
-  không lấy được bằng fetch (cần OCR). webgia fuel cũng JS-load. → fuel backfill chưa làm được từ
-  môi trường này; daily sẽ tự dựng chuỗi tiến tới, hoặc tìm nguồn text (vietnamnet/thuvienphapluat) sau.
-- **Lưu ý:** từ 06/2026 xăng khoáng RON95 được thay bằng E10 RON95 (sinh học); cột `ron95` chứa giá loại RON95 hiện hành, ghi provenance khi có chuyển đổi.
+### Xăng dầu — `scripts/crawl_fuel.py` + `scripts/backfill_fuel.py`
+- **Backfill (xác nhận live 2026-07-04): `tuoitre.vn`** — bài điều hành giá, giá TEXT sạch,
+  KHÔNG lẫn giá nước ngoài. `backfill_fuel.py` nhận danh sách URL bài (thu bằng web search vì
+  tuoitre dùng timeline JS, không walk được). Bẫy: (1) tiêu đề nêu số TRÒN ("vượt mốc 20.000")
+  → ưu tiên giá không tròn nghìn; RON95 chỉ nhận số chính xác, không thì để trống. (2) `effective_date`
+  = NGÀY ĐĂNG (meta `article:published_time`) vì ngày trong thân bài hay dính kỳ trước. (3) lọc 14.000–26.000.
+  **E5RON92 là chuỗi đầy đủ nhất** → site + summary lấy E5 làm giá chính (RON95/diesel thưa).
+- Daily `crawl_fuel.py` hiện dùng Petrolimex (bảng giá là **ẢNH** → parse_prices không đọc được).
+  **TODO daily:** chuyển sang tuoitre như backfill. webgia fuel = JS-load, bỏ.
+- **Lưu ý:** từ 06/2026 xăng khoáng RON95 được thay bằng E10 RON95 (sinh học); cột `ron95` chứa giá loại RON95 hiện hành.
+- vietnambiz fuel: **KHÔNG dùng** — lẫn giá tham chiếu nước ngoài (Thái/Lào/TQ) làm parser lấy sai; RON95 hay vắng.
 
 ### Lãi suất — `scripts/crawl_rates.py`
 - **`https://24hmoney.vn/lai-suat-gui-ngan-hang` (CHÍNH, xác nhận live 2026-07-04):**

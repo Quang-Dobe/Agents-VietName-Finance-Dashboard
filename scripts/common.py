@@ -8,6 +8,7 @@ KHÔNG phải lỗi parse.
 from __future__ import annotations
 
 import csv
+import http.client
 import json
 import re
 import time
@@ -54,8 +55,8 @@ def fetch(url: str, retries: int = 2, delay: float = 1.5, timeout: int = 25) -> 
             if re.search(r"[Tt]unnel connection failed:\s*(403|405|407)", reason):
                 raise DomainBlocked(f"{url} -> {reason} (proxy/allowlist)") from e
             last = e
-        except (TimeoutError, OSError) as e:
-            last = e
+        except (TimeoutError, OSError, http.client.HTTPException) as e:
+            last = e  # gồm IncompleteRead khi server cắt kết nối giữa chừng
         if attempt < retries:
             time.sleep(delay * (attempt + 1))
     raise FetchError(f"{url} -> {last}")

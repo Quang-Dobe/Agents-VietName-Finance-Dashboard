@@ -265,7 +265,7 @@ function renderCards(s) {
   if (s.fx) card("fx", fmtVN(s.fx.latest.vcb_sell), "₫/USD (VCB bán)",
     [["hôm qua", s.fx.delta_1d], ["7 ngày", s.fx.delta_7d]], s.fx.spark_30d, css("--c-fx"));
 
-  if (s.fuel) card("fuel", fmtVN(s.fuel.latest.ron95), "₫/lít (RON95)",
+  if (s.fuel) card("fuel", fmtVN(s.fuel.latest.e5ron92 ?? s.fuel.latest.ron95), "₫/lít (E5 RON92)",
     [["kỳ trước", s.fuel.delta_period]], s.fuel.spark_30d, css("--c-fuel"));
 
   if (s.rates && s.rates.top12m)

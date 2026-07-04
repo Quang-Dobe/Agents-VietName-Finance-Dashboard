@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-04T09:16:08Z",
+  "generated_at": "2026-07-04T10:42:01Z",
   "gold": {
     "latest": {
       "date": "2026-07-03",
@@ -84,14 +84,23 @@
   },
   "fuel": {
     "latest": {
-      "effective_date": "2026-07-01",
-      "ron95": 19910.0,
-      "e5ron92": 19350.0,
-      "diesel": null
+      "effective_date": "2026-07-02",
+      "e5ron92": 19730.0,
+      "ron95": 20415.0,
+      "diesel": 21176.0
     },
-    "delta_period": null,
+    "primary": "e5ron92",
+    "delta_period": 2.0,
     "spark_30d": [
-      19910.0
+      19608.0,
+      19464.0,
+      19226.0,
+      21449.0,
+      22504.0,
+      21834.0,
+      19359.0,
+      19350.0,
+      19730.0
     ]
   },
   "rates": {

@@ -2,6 +2,10 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-07-04 (backfill fuel + rates, one-off)
+- fuel ✓ (8 kỳ 2025-08→2026-07, nguồn tuoitre; E5 đầy đủ, RON95 thưa)  rates ✓ (20 NH, 24hmoney, tuần 2026-W27)
+- ghi chú: E5 làm chuỗi chính (RON95 hay bị số tròn/thiếu). Sửa validate cho cột khuyết; fetch chịu IncompleteRead.
+
 ## 2026-07-04 (backfill gas, one-off)
 - gas ✓ (10 tháng 2025-07→2026-07, nguồn thoibaotaichinhvietnam.vn; miền Bắc/HN đầy đủ, CP có)
 - ghi chú: thiếu 2026-01/02/05; miền Trung/Nam thưa. Sửa validate.check_gas cho dữ liệu miền khuyết.
