@@ -58,19 +58,34 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
 ## Nguồn (cập nhật ghi chú cấu trúc trang khi self-heal)
 
 > Trạng thái verify: **đã xác nhận live 2026-07-04** cho vàng (webgia) & tỷ giá
-> (VCB API). Ghi chú DOM cập nhật bên dưới. Lưu ý allowlist environment biến động:
-> lúc verify, `sjc.com.vn` vẫn bị chặn; các domain khác (webgia, vietcombank,
+> (VCB API); **cập nhật lại 2026-07-08** cho vàng daily (SJC qua giavang.org, DOJI
+> qua giavang.doji.vn) sau khi sjc.com.vn tiếp tục bị chặn. Ghi chú DOM cập nhật
+> bên dưới. Lưu ý allowlist environment biến động: lúc verify, `sjc.com.vn` vẫn bị
+> chặn; các domain khác (webgia, giavang.org, giavang.doji.vn, vietcombank,
 > portal.vcb, petrolimex, evn, vietnambiz, web.archive) đã mở.
 
 ### Vàng — `scripts/crawl_gold.py` + `scripts/backfill_gold.py`
-- SJC daily: `crawl_gold.get_sjc()` thử **webgia hôm nay** (`webgia.com/gia-vang/sjc/DD-MM-YYYY.html`,
-  dòng cuối = giá chốt) TRƯỚC vì `sjc.com.vn` đang bị chặn allowlist; sjc.com.vn là dự phòng khi mở.
-  Trước ~18h VN bảng hôm nay chưa có → routine chạy 18:05 VN là hợp lý; T7/CN/lễ không có bảng → skip.
+- SJC daily (`crawl_gold.get_sjc()`, xác nhận live 2026-07-08), `sjc.com.vn` **bị chặn
+  allowlist (403)**, thử theo thứ tự:
+  1. **webgia hôm nay** (`webgia.com/gia-vang/sjc/DD-MM-YYYY.html`, dòng cuối = giá
+     chốt) — chỉ có dữ liệu sau ~18h VN khi ngày đã "chốt"/archive; trước đó (chạy
+     sớm trong ngày) hoặc T7/CN/lễ trả bảng `Khu vực | Loại vàng | Mua vào | Bán ra`
+     **rỗng** → rơi xuống bước 2.
+  2. **`https://giavang.org/`** (đã whitelist, aggregator giá SJC toàn quốc
+     real-time, cùng nguồn mà webgia credit "Nguồn: ... SJC, giavang.org"). DOM:
+     khối `<h2>...Giá vàng Miếng SJC</h2>` rồi 2 `<span class="gold-price">146.500
+     <small class="gold-unit">x1000đ/lượng</small>` (mua, bán theo thứ tự). Số hiển
+     thị **đã là nghìn đồng/lượng**, không cần quy đổi — "146.500" -> 146500.
 - SJC lịch sử (backfill, ĐÃ CHẠY): `https://webgia.com/gia-vang/sjc/DD-MM-YYYY.html` — server-rendered.
   DOM: bảng có header `Lần | Thời gian cập nhật | Mua vào | Bán ra`; **lấy DÒNG CUỐI**
   (giá chốt ngày). Số dạng `121.300 (+400)` → chỉ lấy `121.300`. SJC đồng giá toàn quốc.
   Cảnh báo: trang còn 1 widget sidebar "Tỷ giá Vietcombank" cũng có "Mua vào/Bán ra" →
   phải lọc bảng có cột `Lần/Thời gian` mới đúng bảng vàng. Ngày nghỉ (T7/CN/lễ) không có bảng → skip.
+- DOJI daily (xác nhận live 2026-07-08): `https://giavang.doji.vn/` — server-rendered.
+  DOM: `#bang-gia-theo-vung-mien` chứa nhiều `table.goldprice-view`, khối ĐẦU TIÊN là
+  "Bảng giá tại Hà Nội"; dòng `<td class="label">SJC - Bán Lẻ</td><td>14650</td><td>14950</td>`.
+  Đơn vị bảng là **nghìn đồng/CHỈ** (cột ghi chú `(nghìn/chỉ)`) → **nhân 10** để ra
+  nghìn đồng/lượng (khớp `title` chart trên trang: "SJC (nghìn/lượng): 146,500/149,500").
 - DOJI lịch sử: webgia **404** (`/gia-vang/doji/DD-MM-YYYY.html` không tồn tại) → backfill để DOJI rỗng.
 
 ### Tỷ giá — `scripts/crawl_fx.py` + `scripts/backfill_fx.py`
@@ -119,13 +134,14 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
 
 ## Allowlist environment hiện tại (cập nhật cùng lúc với environment settings)
 
-Bắt buộc (daily): `sjc.com.vn`, `giavang.doji.vn`, `update.giavang.doji.vn`,
+Bắt buộc (daily): `sjc.com.vn` (hiện bị chặn — vàng daily dùng `giavang.org` thay thế),
+`giavang.org`, `giavang.doji.vn`, `update.giavang.doji.vn`,
 `vietcombank.com.vn`, `portal.vietcombank.com.vn`, `sbv.gov.vn`,
 `dttktt.sbv.gov.vn`, `petrolimex.com.vn`, `evn.com.vn`, `evnhanoi.vn`,
 `webgia.com`, `vietnambiz.vn`, `24hmoney.vn` (lãi suất),
 `thoibaotaichinhvietnam.vn` (gas).
 
-Backfill/dự phòng: `web.archive.org`, `giavang.org`,
+Backfill/dự phòng: `web.archive.org`,
 `laisuattietkiem.vn`, `tuoitre.vn`, `alogas.vn`,
 `pnj.com.vn`. P3 (thêm khi làm): `stooq.com`.
 

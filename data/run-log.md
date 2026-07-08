@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-07-08 (daily)
+- gold ✓ 149.500 (SJC, tự self-heal: webgia trống bảng hôm nay → chuyển sang giavang.org + giavang.doji.vn)  fx ✓ 26.466  fuel – (kỳ 02/07 chưa đổi)  gas – (07/2026 đã có)  rates skip  electricity skip
+- flags: (không có flag mới hôm nay; 2 flag lịch sử gold 2026-02-03/2026-06-12 giữ nguyên)
+- ghi chú: sjc.com.vn vẫn 403 → sửa `crawl_gold.py` (parse_sjc dùng giavang.org, parse_doji dùng giavang.doji.vn, cả hai đã có sẵn allowlist, không cần thêm domain mới). Cập nhật ghi chú DOM trong CLAUDE.md.
+
 ## 2026-07-04 (backfill fuel + rates, one-off)
 - fuel ✓ (8 kỳ 2025-08→2026-07, nguồn tuoitre; E5 đầy đủ, RON95 thưa)  rates ✓ (20 NH, 24hmoney, tuần 2026-W27)
 - ghi chú: E5 làm chuỗi chính (RON95 hay bị số tròn/thiếu). Sửa validate cho cột khuyết; fetch chịu IncompleteRead.

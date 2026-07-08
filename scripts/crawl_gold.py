@@ -19,7 +19,10 @@ from common import (DATA, DomainBlocked, append_csv_row, emit, fetch,
 FIELDS = ["date", "sjc_buy", "sjc_sell", "doji_buy", "doji_sell"]
 PATH = DATA / "gold" / "history.csv"
 
-SJC_URL = "https://sjc.com.vn/gia-vang-online"
+# sjc.com.vn bị chặn allowlist (2026-07) -> dùng giavang.org (đã whitelist,
+# aggregator giá SJC toàn quốc, cập nhật real-time, cùng nguồn dữ liệu mà
+# webgia.com credit "Nguồn: ... SJC, giavang.org"). Xem ghi chú DOM ở CLAUDE.md.
+SJC_URL = "https://giavang.org/"
 DOJI_URL = "https://giavang.doji.vn/"
 
 # Ngưỡng sanity (nghìn đ/lượng) — vùng giá 2025-2026 ~140-160 triệu/lượng.
@@ -40,25 +43,54 @@ def _two_prices_near(text: str, label_regex: str) -> tuple[float, float]:
 
 
 def parse_sjc(html: str) -> tuple[float, float]:
-    """SJC TP.HCM, vàng miếng SJC. -> (buy, sell)."""
-    return _two_prices_near(strip_tags(html), r"(Hồ Chí Minh|TPHCM|HCM|Vàng SJC)")
+    """SJC (giá vàng miếng toàn quốc, giavang.org). -> (buy, sell).
+
+    DOM: khối `<h2>...Giá vàng Miếng SJC</h2>` rồi tới 2 khối
+    `<span class="gold-price-label">Mua vào</span> ... <span class="gold-price">146.500 <small class="gold-unit">x1000đ/lượng</small>`.
+    Số hiển thị ĐÃ là nghìn đồng/lượng (không cần quy đổi) — "146.500" -> 146500.
+    """
+    m = re.search(r"Giá vàng\s*Miếng SJC", html, re.I)
+    if not m:
+        raise ValueError("không thấy khối 'Giá vàng Miếng SJC'")
+    block = html[m.end(): m.end() + 1500]
+    prices = re.findall(r'class="gold-price">\s*([\d.,]+)\s*<small class="gold-unit">x1000', block)
+    if len(prices) < 2:
+        raise ValueError(f"không đủ 2 giá trong khối SJC: {prices}")
+    buy, sell = vn_number(prices[0]), vn_number(prices[1])
+    return buy, sell
 
 
 def parse_doji(html: str) -> tuple[float, float]:
-    """DOJI Hà Nội, vàng miếng (SJC bar tại DOJI). -> (buy, sell)."""
-    return _two_prices_near(strip_tags(html), r"(Hà Nội|SJC)")
+    """DOJI Hà Nội, vàng miếng SJC bán tại quầy DOJI. -> (buy, sell).
+
+    DOM: bảng đầu tiên trong `#bang-gia-theo-vung-mien` là khối "Bảng giá tại
+    Hà Nội" (`table.goldprice-view`), dòng `<td class="label">SJC - Bán Lẻ</td>`
+    kèm 2 `<td>` mua/bán. Đơn vị bảng là NGHÌN ĐỒNG/CHỈ (ghi chú "(nghìn/chỉ)"
+    cạnh nhãn cột) -> nhân 10 để ra nghìn đồng/lượng (khớp biểu đồ trang ghi
+    "SJC (nghìn/lượng): <buy*10>/<sell*10>").
+    """
+    m = re.search(r'Bảng giá tại Hà Nội.*?<tbody>(.*?)</tbody>', html, re.S)
+    if not m:
+        raise ValueError("không thấy bảng giá Hà Nội")
+    row_m = re.search(r'<td class="label">SJC[^<]*</td>\s*<td>([\d.,]+)</td>\s*<td>([\d.,]+)</td>', m.group(1))
+    if not row_m:
+        raise ValueError("không thấy dòng SJC trong bảng Hà Nội")
+    buy = vn_number(row_m.group(1)) * 10
+    sell = vn_number(row_m.group(2)) * 10
+    return buy, sell
 
 
 def get_sjc() -> tuple[float, float]:
-    """SJC hôm nay. webgia (giá chốt trong ngày) TRƯỚC vì sjc.com.vn đang bị chặn
-    allowlist; nếu webgia lỗi/không có bảng (T7/CN/lễ) thì thử sjc.com.vn."""
+    """SJC hôm nay. Thử webgia (giá chốt trong ngày, chỉ có sau ~18h VN) TRƯỚC;
+    nếu webgia lỗi/chưa có bảng (chạy sớm trong ngày, hoặc T7/CN/lễ) thì thử
+    giavang.org (giá real-time, luôn có, dùng thay sjc.com.vn đang bị chặn)."""
     from backfill_gold import parse_webgia_sjc, url_for  # bảng lịch sử = giá trong ngày
     try:
         return parse_webgia_sjc(fetch(url_for(date.today())))
     except DomainBlocked:
-        pass  # webgia chặn → thử nguồn chính thức
+        pass  # webgia chặn → thử nguồn dự phòng
     except Exception:
-        pass  # webgia không có bảng hôm nay → thử sjc
+        pass  # webgia chưa có bảng hôm nay → thử nguồn dự phòng
     return parse_sjc(fetch(SJC_URL))
 
 
