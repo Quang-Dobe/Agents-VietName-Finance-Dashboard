@@ -1,14 +1,3 @@
 {
-  "flags": [
-    {
-      "module": "gold",
-      "when": "2026-02-03",
-      "msg": "vàng nhảy +6.3% so hôm trước"
-    },
-    {
-      "module": "gold",
-      "when": "2026-06-12",
-      "msg": "vàng nhảy +5.1% so hôm trước"
-    }
-  ]
+  "flags": []
 }

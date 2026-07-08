@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-07-08 (daily, chạy lại)
+- gold ✓ 148.500 (SJC/DOJI cùng giavang.org+giavang.doji.vn, giá real-time giảm so lần chạy trước cùng ngày 149.500 → 148.500)  fx – 26.466 (không đổi)  fuel – (kỳ 02/07 chưa đổi, chưa tới hạn kỳ mới ~11-12/07)  gas – (07/2026 đã có, chưa tới tháng 08)  rates skip  electricity skip
+- flags: (không có flag mới; validate.py không --full chỉ quét 2 dòng gần nhất nên 2 flag lịch sử gold 2026-02-03/2026-06-12 không còn xuất hiện trong flags.json — đây là hành vi thiết kế của script, không phải mất dữ liệu, số liệu CSV gốc không đổi)
+- ghi chú: không self-heal, không domain thiếu. Đây là lần chạy thứ 2 trong ngày (giờ ~18:05 VN theo lịch daily); giá vàng biến động trong ngày là bình thường.
+
 ## 2026-07-08 (daily)
 - gold ✓ 149.500 (SJC, tự self-heal: webgia trống bảng hôm nay → chuyển sang giavang.org + giavang.doji.vn)  fx ✓ 26.466  fuel – (kỳ 02/07 chưa đổi)  gas – (07/2026 đã có)  rates skip  electricity skip
 - flags: (không có flag mới hôm nay; 2 flag lịch sử gold 2026-02-03/2026-06-12 giữ nguyên)
