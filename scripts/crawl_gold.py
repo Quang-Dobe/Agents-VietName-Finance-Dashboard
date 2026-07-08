@@ -49,10 +49,23 @@ def parse_doji(html: str) -> tuple[float, float]:
     return _two_prices_near(strip_tags(html), r"(Hà Nội|SJC)")
 
 
+def get_sjc() -> tuple[float, float]:
+    """SJC hôm nay. webgia (giá chốt trong ngày) TRƯỚC vì sjc.com.vn đang bị chặn
+    allowlist; nếu webgia lỗi/không có bảng (T7/CN/lễ) thì thử sjc.com.vn."""
+    from backfill_gold import parse_webgia_sjc, url_for  # bảng lịch sử = giá trong ngày
+    try:
+        return parse_webgia_sjc(fetch(url_for(date.today())))
+    except DomainBlocked:
+        pass  # webgia chặn → thử nguồn chính thức
+    except Exception:
+        pass  # webgia không có bảng hôm nay → thử sjc
+    return parse_sjc(fetch(SJC_URL))
+
+
 def main() -> int:
     row = {"date": date.today().isoformat()}
     try:
-        row["sjc_buy"], row["sjc_sell"] = parse_sjc(fetch(SJC_URL))
+        row["sjc_buy"], row["sjc_sell"] = get_sjc()
     except DomainBlocked as e:
         emit("FAIL", f"blocked: {e}"); return 2
     except Exception as e:  # noqa: BLE001 - self-heal đọc lý do

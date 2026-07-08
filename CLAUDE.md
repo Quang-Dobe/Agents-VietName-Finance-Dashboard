@@ -63,7 +63,9 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
 > portal.vcb, petrolimex, evn, vietnambiz, web.archive) đã mở.
 
 ### Vàng — `scripts/crawl_gold.py` + `scripts/backfill_gold.py`
-- SJC daily: `https://sjc.com.vn/gia-vang-online` — **hiện bị chặn allowlist** (dùng webgia tạm cho tới khi mở).
+- SJC daily: `crawl_gold.get_sjc()` thử **webgia hôm nay** (`webgia.com/gia-vang/sjc/DD-MM-YYYY.html`,
+  dòng cuối = giá chốt) TRƯỚC vì `sjc.com.vn` đang bị chặn allowlist; sjc.com.vn là dự phòng khi mở.
+  Trước ~18h VN bảng hôm nay chưa có → routine chạy 18:05 VN là hợp lý; T7/CN/lễ không có bảng → skip.
 - SJC lịch sử (backfill, ĐÃ CHẠY): `https://webgia.com/gia-vang/sjc/DD-MM-YYYY.html` — server-rendered.
   DOM: bảng có header `Lần | Thời gian cập nhật | Mua vào | Bán ra`; **lấy DÒNG CUỐI**
   (giá chốt ngày). Số dạng `121.300 (+400)` → chỉ lấy `121.300`. SJC đồng giá toàn quốc.
