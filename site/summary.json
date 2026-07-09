@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-08T01:49:33Z",
+  "generated_at": "2026-07-08T11:10:18Z",
   "gold": {
     "latest": {
       "date": "2026-07-08",
-      "sjc_sell": 149500.0,
-      "sjc_buy": 146500.0
+      "sjc_sell": 148500.0,
+      "sjc_buy": 145500.0
     },
-    "delta_1d": -1.3,
-    "delta_7d": 1.7,
+    "delta_1d": -1.9,
+    "delta_7d": 1.0,
     "spark_30d": [
       158500.0,
       159000.0,
@@ -38,7 +38,7 @@
       146400.0,
       148400.0,
       151400.0,
-      149500.0
+      148500.0
     ]
   },
   "fx": {
@@ -120,16 +120,5 @@
     "gas_price": 502200.0,
     "gas_delta": -16.0
   },
-  "flags": [
-    {
-      "module": "gold",
-      "when": "2026-02-03",
-      "msg": "vàng nhảy +6.3% so hôm trước"
-    },
-    {
-      "module": "gold",
-      "when": "2026-06-12",
-      "msg": "vàng nhảy +5.1% so hôm trước"
-    }
-  ]
+  "flags": []
 }
