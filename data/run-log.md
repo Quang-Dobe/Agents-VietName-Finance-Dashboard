@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-07-09 (daily)
+- gold ✓ 149.000 (SJC/DOJI, giavang.org+giavang.doji.vn, không self-heal)  fx ✓ 26.471 (VCB, SBV central rỗng)  fuel ✓ kỳ 09/07 (20.000/19.190/21.740/21.610 — tuoitre chưa đăng bài kỳ mới nên đọc tay ảnh giabanle.jpg từ thông cáo Petrolimex 40/2026/PLX-TCBC, chọn đúng dòng III/II phổ thông, ghi fallback vào CLAUDE.md)  gas – (07/2026 đã có, chưa tới hạn tháng 08)  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: không domain thiếu. Cập nhật CLAUDE.md mục Xăng dầu với quy trình fallback đọc ảnh tay khi tuoitre chưa đăng bài kỳ mới (không sửa `parse_prices` vì regex không đọc được ảnh).
+
 ## 2026-07-08 (daily, chạy lại)
 - gold ✓ 148.500 (SJC/DOJI cùng giavang.org+giavang.doji.vn, giá real-time giảm so lần chạy trước cùng ngày 149.500 → 148.500)  fx – 26.466 (không đổi)  fuel – (kỳ 02/07 chưa đổi, chưa tới hạn kỳ mới ~11-12/07)  gas – (07/2026 đã có, chưa tới tháng 08)  rates skip  electricity skip
 - flags: (không có flag mới; validate.py không --full chỉ quét 2 dòng gần nhất nên 2 flag lịch sử gold 2026-02-03/2026-06-12 không còn xuất hiện trong flags.json — đây là hành vi thiết kế của script, không phải mất dữ liệu, số liệu CSV gốc không đổi)

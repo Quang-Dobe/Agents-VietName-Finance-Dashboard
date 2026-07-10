@@ -109,6 +109,19 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
   **TODO daily:** chuyển sang tuoitre như backfill. webgia fuel = JS-load, bỏ.
 - **Lưu ý:** từ 06/2026 xăng khoáng RON95 được thay bằng E10 RON95 (sinh học); cột `ron95` chứa giá loại RON95 hiện hành.
 - vietnambiz fuel: **KHÔNG dùng** — lẫn giá tham chiếu nước ngoài (Thái/Lào/TQ) làm parser lấy sai; RON95 hay vắng.
+- **Fallback thủ công khi tuoitre chưa đăng bài kỳ mới (đã dùng 2026-07-09):** nếu
+  `crawl_fuel.py --check` báo `NEW` nhưng tuoitre chưa có bài (kiểm `tuoitre.vn/gia-xang-dau.html`,
+  danh sách bài gắn tag, không phải trang search — search dùng JS không fetch được), agent có thể
+  fetch trực tiếp ảnh `giabanle.jpg` từ bài thông cáo Petrolimex (`<img src=".../giabanle.jpg">`
+  trong HTML bài) rồi **đọc bằng Read tool (vision)** — bảng ảnh có cột "Vùng 1"/"Vùng 2", đơn vị
+  đồng/lít đã gồm VAT. Đây là parse tay một lần, KHÔNG tự động hoá được trong script (regex không
+  đọc ảnh) nên không sửa `parse_prices`. Chọn đúng dòng:
+  - `ron95` = "Xăng sinh học E10 RON 95-**III**" (loại phổ thông, khớp lịch sử trước 06/2026),
+    KHÔNG lấy dòng "-V" (loại cao cấp, giá luôn cao hơn ~1.000-1.200đ, ít trạm bán).
+  - `diesel` = "Điêzen 0,05S-**II**" (phổ thông, khớp range lịch sử ~21.000-22.000), KHÔNG lấy
+    "0,001S-V" (cao cấp, ~23.000-24.000).
+  - `dau_hoa` = "Dầu hỏa 2-K".
+  - Vùng 1 = cột đầu tiên sau "Đơn vị tính".
 
 ### Lãi suất — `scripts/crawl_rates.py`
 - **`https://24hmoney.vn/lai-suat-gui-ngan-hang` (CHÍNH, xác nhận live 2026-07-04):**
