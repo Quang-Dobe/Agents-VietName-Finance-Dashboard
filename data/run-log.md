@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-07-10 (daily)
+- gold ✓ 149.000 (SJC/DOJI, giavang.org+giavang.doji.vn qua crawl_gold.py, không đổi so với hôm qua, không self-heal)  fx – 26.471 (VCB API, giá VCB chưa cập nhật trong ngày, SBV central rỗng)  fuel – kỳ 09/07 không đổi (chưa tới hạn kỳ mới, dự kiến ~19-20/07)  gas – (07/2026 đã có, chưa tới hạn tháng 08)  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: không self-heal, không domain thiếu. Build trên nhánh nối tiếp PR #3 (2026-07-09) vì PR đó chưa merge vào lúc chạy, giữ đúng thứ tự ngày trong CSV.
+
 ## 2026-07-09 (daily)
 - gold ✓ 149.000 (SJC/DOJI, giavang.org+giavang.doji.vn, không self-heal)  fx ✓ 26.471 (VCB, SBV central rỗng)  fuel ✓ kỳ 09/07 (20.000/19.190/21.740/21.610 — tuoitre chưa đăng bài kỳ mới nên đọc tay ảnh giabanle.jpg từ thông cáo Petrolimex 40/2026/PLX-TCBC, chọn đúng dòng III/II phổ thông, ghi fallback vào CLAUDE.md)  gas – (07/2026 đã có, chưa tới hạn tháng 08)  rates skip  electricity skip
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
