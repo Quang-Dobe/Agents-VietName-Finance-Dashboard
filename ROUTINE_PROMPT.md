@@ -24,8 +24,13 @@ token**: việc gì làm được bằng script thì chạy script, đừng reas
 6. Commit TẤT CẢ thay đổi trong **1 commit**:
    `daily: <YYYY-MM-DD> (gold ✓ fx ✓ fuel – rates skip electricity skip)`
    (✓ có dữ liệu mới · – check không có gì mới · ✗ fail · skip không đến lịch).
-   Push `main`, retry 4 lần backoff 2s/4s/8s/16s nếu lỗi mạng.
-7. Kết thúc: nếu có agent ✗, flag, hoặc thiếu domain → mô tả ngắn gọn cho owner
+   Push branch của routine, retry 4 lần backoff 2s/4s/8s/16s nếu lỗi mạng.
+7. Harness tự tạo PR sang `main` ở dạng **draft** sau khi push — luôn gọi
+   `update_pull_request` với `draft: false` ngay sau khi PR được tạo để chuyển
+   sang "ready for review". Đây là bước bắt buộc: workflow
+   `.github/workflows/auto-merge.yml` chỉ merge PR không-draft, PR còn ở dạng
+   draft sẽ đứng yên mãi mãi.
+8. Kết thúc: nếu có agent ✗, flag, hoặc thiếu domain → mô tả ngắn gọn cho owner
    (nêu rõ domain nào cần thêm vào allowlist). Không có gì bất thường → 1 dòng
    xác nhận là đủ.
 
