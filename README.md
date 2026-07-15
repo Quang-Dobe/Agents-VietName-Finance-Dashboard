@@ -2,6 +2,8 @@
 
 Dashboard thị trường & tài chính Việt Nam, cập nhật **mỗi ngày** bằng Claude Code Routine.
 
+🔗 **Xem dashboard live**: https://quang-dobe.github.io/Agents-VietName-Finance-Dashboard/
+
 Theo dõi 5 nhóm dữ liệu:
 
 | Nhóm | Nội dung | Tần suất |
