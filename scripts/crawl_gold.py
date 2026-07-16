@@ -23,7 +23,10 @@ PATH = DATA / "gold" / "history.csv"
 # aggregator giá SJC toàn quốc, cập nhật real-time, cùng nguồn dữ liệu mà
 # webgia.com credit "Nguồn: ... SJC, giavang.org"). Xem ghi chú DOM ở CLAUDE.md.
 SJC_URL = "https://giavang.org/"
-DOJI_URL = "https://giavang.doji.vn/"
+# giavang.doji.vn từ ~2026-07-16 redirect 301 sang banggia.doji.vn (Angular SPA,
+# JS-render, không có số trong HTML tĩnh) -> dùng subdomain cũ update.giavang.doji.vn
+# (vẫn server-rendered kiểu Drupal) làm nguồn chính. Xem ghi chú DOM ở CLAUDE.md.
+DOJI_URL = "https://update.giavang.doji.vn/"
 
 # Ngưỡng sanity (nghìn đ/lượng) — vùng giá 2025-2026 ~140-160 triệu/lượng.
 LO, HI = 30_000, 500_000
@@ -61,20 +64,35 @@ def parse_sjc(html: str) -> tuple[float, float]:
 
 
 def parse_doji(html: str) -> tuple[float, float]:
-    """DOJI Hà Nội, vàng miếng SJC bán tại quầy DOJI. -> (buy, sell).
+    """DOJI (giá vàng trong nước, quầy DOJI), qua subdomain cũ update.giavang.doji.vn
+    (giavang.doji.vn nay redirect 301 sang banggia.doji.vn — Angular SPA, JS-render,
+    không đọc được bằng fetch tĩnh). -> (buy, sell).
 
-    DOM: bảng đầu tiên trong `#bang-gia-theo-vung-mien` là khối "Bảng giá tại
-    Hà Nội" (`table.goldprice-view`), dòng `<td class="label">SJC - Bán Lẻ</td>`
-    kèm 2 `<td>` mua/bán. Đơn vị bảng là NGHÌN ĐỒNG/CHỈ (ghi chú "(nghìn/chỉ)"
-    cạnh nhãn cột) -> nhân 10 để ra nghìn đồng/lượng (khớp biểu đồ trang ghi
-    "SJC (nghìn/lượng): <buy*10>/<sell*10>").
+    DOM: bảng `table.goldprice-view` đầu tiên trong trang (khối "Giá vàng trong
+    nước"), dòng `<td class="first"><span class="title...">SJC -Bán Lẻ</span>...`
+    kèm 2 `<td class="goldprice-td..."><div class="item-relative">14,550</div></td>`
+    (mua, bán). Đơn vị NGHÌN ĐỒNG/CHỈ (ghi chú "(nghìn/chỉ)" cạnh nhãn) -> nhân 10
+    ra nghìn đồng/lượng.
+
+    Subdomain này là trang legacy, có dấu hiệu đứng cập nhật (thấy đơ ở
+    2026-07-15 08:50 khi chạy ngày 2026-07-16) -> BẮT BUỘC kiểm tra mốc
+    "Cập nhập lúc: HH:MM DD/MM/YYYY" khớp NGÀY HÔM NAY, không thì coi là dữ liệu
+    cũ và raise (để DOJI trống thay vì lặp lại giá hôm qua).
     """
-    m = re.search(r'Bảng giá tại Hà Nội.*?<tbody>(.*?)</tbody>', html, re.S)
-    if not m:
-        raise ValueError("không thấy bảng giá Hà Nội")
-    row_m = re.search(r'<td class="label">SJC[^<]*</td>\s*<td>([\d.,]+)</td>\s*<td>([\d.,]+)</td>', m.group(1))
+    fresh_m = re.search(r"Cập nhập lúc:\s*\d{2}:\d{2}\s*(\d{2})/(\d{2})/(\d{4})", html)
+    if not fresh_m:
+        raise ValueError("không thấy mốc 'Cập nhập lúc'")
+    dd, mm, yyyy = fresh_m.groups()
+    page_date = f"{yyyy}-{mm}-{dd}"
+    if page_date != date.today().isoformat():
+        raise ValueError(f"dữ liệu DOJI cũ (trang ghi {page_date}, hôm nay {date.today().isoformat()})")
+    row_m = re.search(
+        r'<td class="first"><span class="title[^>]*>SJC\s*-\s*Bán\s*Lẻ</span>.*?</td>'
+        r'\s*<td[^>]*><div class="item-relative">([\d.,]+)</div></td>'
+        r'\s*<td[^>]*><div class="item-relative">([\d.,]+)</div></td>',
+        html, re.S)
     if not row_m:
-        raise ValueError("không thấy dòng SJC trong bảng Hà Nội")
+        raise ValueError("không thấy dòng 'SJC -Bán Lẻ' trong bảng giá trong nước")
     buy = vn_number(row_m.group(1)) * 10
     sell = vn_number(row_m.group(2)) * 10
     return buy, sell

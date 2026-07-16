@@ -81,11 +81,28 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
   (giá chốt ngày). Số dạng `121.300 (+400)` → chỉ lấy `121.300`. SJC đồng giá toàn quốc.
   Cảnh báo: trang còn 1 widget sidebar "Tỷ giá Vietcombank" cũng có "Mua vào/Bán ra" →
   phải lọc bảng có cột `Lần/Thời gian` mới đúng bảng vàng. Ngày nghỉ (T7/CN/lễ) không có bảng → skip.
-- DOJI daily (xác nhận live 2026-07-08): `https://giavang.doji.vn/` — server-rendered.
-  DOM: `#bang-gia-theo-vung-mien` chứa nhiều `table.goldprice-view`, khối ĐẦU TIÊN là
-  "Bảng giá tại Hà Nội"; dòng `<td class="label">SJC - Bán Lẻ</td><td>14650</td><td>14950</td>`.
-  Đơn vị bảng là **nghìn đồng/CHỈ** (cột ghi chú `(nghìn/chỉ)`) → **nhân 10** để ra
-  nghìn đồng/lượng (khớp `title` chart trên trang: "SJC (nghìn/lượng): 146,500/149,500").
+- DOJI daily — **self-heal 2026-07-16:** `https://giavang.doji.vn/` giờ **redirect 301
+  sang `https://banggia.doji.vn/`**, một Angular SPA (`<app-root>`, bundle JS
+  `main-*.js`/`chunk-*.js`, HTML tĩnh chỉ ~3.8KB không có số) → không đọc được bằng
+  fetch tĩnh nữa (DOM cũ `#bang-gia-theo-vung-mien` / `table.goldprice-view` mô tả bên
+  dưới KHÔNG còn áp dụng cho domain này). WebFetch trên `banggia.doji.vn` cũng gặp 503.
+  Không tìm thấy endpoint API JSON nào lộ trong các bundle JS đã kiểm tra.
+  **Nguồn thay thế:** subdomain legacy `https://update.giavang.doji.vn/` (Drupal cũ,
+  vẫn server-rendered, KHÔNG bị redirect) — bảng đầu trang là "Giá vàng trong nước",
+  dòng `<td class="first"><span class="title...">SJC -Bán Lẻ</span>...</td><td
+  class="goldprice-td..."><div class="item-relative">14,550</div></td><td...><div
+  class="item-relative">14,850</div></td>` (mua, bán). Đơn vị **nghìn đồng/CHỈ** →
+  **nhân 10** ra nghìn đồng/lượng. **Cảnh báo quan trọng:** subdomain này có dấu hiệu
+  ĐÃ NGỪNG cập nhật real-time — khi crawl lúc 2026-07-16 (~07h VN) trang vẫn hiện mốc
+  "Cập nhập lúc: 08:50 15/07/2026" (dữ liệu của NGÀY HÔM TRƯỚC, đơ ít nhất >22h). Vì
+  vậy `parse_doji` bắt buộc parse mốc "Cập nhập lúc: HH:MM DD/MM/YYYY" và so với ngày
+  hôm nay — không khớp thì raise (bỏ trống DOJI) thay vì lặp giá cũ. Bảng cũng không
+  còn ghi rõ "Hà Nội" trong tiêu đề (chỉ "Giá vàng trong nước", có thể là bảng chung/
+  toàn quốc chứ không riêng Hà Nội — cần xác nhận lại nếu/khi trang cập nhật lại).
+  webgia DOJI (`https://webgia.com/gia-vang/doji/`) cũng đã thử: trả 200 nhưng bảng
+  `<tbody></tbody>` RỖNG (giá được JS widget `doji.js` chèn vào, không có trong HTML
+  thô) → không dùng được. Nếu subdomain `update.giavang.doji.vn` ngừng hẳn, cần tìm
+  nguồn DOJI khác (chưa có phương án).
 - DOJI lịch sử: webgia **404** (`/gia-vang/doji/DD-MM-YYYY.html` không tồn tại) → backfill để DOJI rỗng.
 
 ### Tỷ giá — `scripts/crawl_fx.py` + `scripts/backfill_fx.py`
