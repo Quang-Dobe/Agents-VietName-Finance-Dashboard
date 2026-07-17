@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-07-17 (daily)
+- gold ✓ 148.200 (SJC 145.200/148.200 qua crawl_gold.py, giavang.org, giảm ~0,2% so hôm qua 148.500; DOJI không lấy được hôm nay — nguồn update.giavang.doji.vn chưa có mốc cập nhật khớp ngày, script tự để rỗng theo thiết kế, không self-heal)  fx ✓ 26.450 (VCB API: mua tiền mặt 26.040, mua CK 26.070, bán 26.450; SBV central rỗng; không đổi so hôm qua)  fuel ✓ kỳ 16/07 (E10 RON95-III 20.550, E5RON92-II 19.820, diesel 0,05S-II 23.320, dầu hỏa 2-K 24.590 — tăng lần lượt +2,75%/+3,3%/+7,3%/+13,8% so kỳ 09/07, dưới ngưỡng flag 20%; Petrolimex daily vẫn bảng ảnh nên đọc tay từ giaban.jpg thông cáo PLX theo đúng fallback đã ghi trong CLAUDE.md, tuoitre chưa đăng bài kỳ mới nên không self-heal crawl_fuel.py)  gas – (07/2026 đã có, chưa tới hạn tháng 08, hôm nay ngoài khung ngày 1-4 nên bỏ qua check)  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay thứ Sáu nên rates & electricity skip theo lịch. Không self-heal script, không domain thiếu. site-builder OK 5/5 module.
+
 ## 2026-07-16 (daily)
 - gold ✓ 148.500 (SJC 145.500/148.500 qua crawl_gold.py, giavang.org, tăng ~0,68% so hôm qua 147.500; DOJI không lấy được hôm nay, để rỗng, không self-heal)  fx ✓ 26.450 (VCB API: mua tiền mặt 26.040, mua CK 26.070, bán 26.450; SBV central rỗng; không đổi so hôm qua)  fuel – kỳ 09/07 không đổi (chưa tới hạn kỳ mới, dự kiến ~19-20/07)  gas – (07/2026 đã có, chưa tới hạn tháng 08)  rates skip  electricity skip
 - flags: (không có flag mới; validate.py: errors=0 flags=0)

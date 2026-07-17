@@ -103,6 +103,23 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
   `<tbody></tbody>` RỖNG (giá được JS widget `doji.js` chèn vào, không có trong HTML
   thô) → không dùng được. Nếu subdomain `update.giavang.doji.vn` ngừng hẳn, cần tìm
   nguồn DOJI khác (chưa có phương án).
+  **2026-07-17: subdomain còn hỏng nặng hơn** — `fetch()` giờ raise `FetchError`
+  (`SSL: CERTIFICATE_VERIFY_FAILED ... unable to get local issuer certificate`)
+  TRƯỚC CẢ KHI đọc được HTML để check mốc "Cập nhập lúc". Đã xác minh bằng tay đây
+  KHÔNG PHẢI lỗi allowlist/proxy: CONNECT tunnel tới `update.giavang.doji.vn:443`
+  trả `200 Connection Established` bình thường (giống domain khác trong allowlist,
+  ví dụ `giavang.org`, `banggia.doji.vn` verify TLS OK qua cùng proxy), và
+  `openssl s_client -proxy ... -connect update.giavang.doji.vn:443 -showcerts` cho
+  thấy origin server có cert lá hợp lệ (CN đúng, GlobalSign, hết hạn 2026-12-02)
+  nhưng **không gửi kèm chứng chỉ trung gian** "GlobalSign GCC R6 AlphaSSL CA 2025"
+  → client không dựng được chain, lỗi `unable to get local issuer certificate`. Đây
+  là lỗi cấu hình TLS phía server nguồn (thiếu chain cert), không sửa được từ phía
+  agent (không được tắt xác minh TLS). `parse_doji`/`get sjc` không cần sửa — luồng
+  try/except hiện tại ở `main()` đã đúng: DOJI fail (bất kỳ lý do gì, kể cả
+  `FetchError`) → để trống, không chặn phần SJC. Ghi nhận thêm bằng chứng subdomain
+  này đang bị bỏ bê (2 ngày liên tiếp 07-16, 07-17 đều không lấy được DOJI, hai lý
+  do khác nhau) — nên coi là nguồn không ổn định, ưu tiên tìm nguồn DOJI thay thế
+  khi có thời gian rà soát kỹ hơn (chưa có phương án).
 - DOJI lịch sử: webgia **404** (`/gia-vang/doji/DD-MM-YYYY.html` không tồn tại) → backfill để DOJI rỗng.
 
 ### Tỷ giá — `scripts/crawl_fx.py` + `scripts/backfill_fx.py`
