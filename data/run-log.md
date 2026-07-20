@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-07-20 (daily)
+- gold ✓ 147.500 (SJC 144.500/147.500 qua crawl_gold.py, giavang.org, không đổi so hôm qua; DOJI không lấy được hôm nay — update.giavang.doji.vn vẫn chưa có mốc cập nhật khớp ngày, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.490 (VCB API: mua tiền mặt 26.080, mua CK 26.110, bán 26.490; SBV central rỗng; không đổi so hôm qua)  fuel – kỳ 16/07 không đổi (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới)  gas – ngoài cửa sổ ngày 1-4 nên bỏ qua check tháng 08  rates ✓ 20 ngân hàng (2026-W30, 24hmoney, kỳ hạn 1/3/6/12, 24 tháng để trống; đối chiếu tay với 2026-W29 không có ngân hàng nào đổi >2 điểm%/tuần)  electricity – (QĐ 1279/QĐ-BCT 09/5/2025 vẫn hiện hành; NĐ 278/2026/NĐ-CP + VBHN 68/2026/VBHN-BCT chỉ đổi cơ chế điều chỉnh giá bình quân, không đổi biểu giá bậc thang)
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay thứ Hai nên chạy đủ 5 module. Không self-heal, không domain thiếu. site-builder OK 5/5 module. Ghi nhận (không sửa): `check_rates()` trong `scripts/validate.py` chưa tự động hoá so sánh tuần-qua-tuần cho quy tắc FLAG "lãi suất đổi >2 điểm%/tuần" — hiện chỉ sanity range; đối chiếu tay tuần này không phát hiện gì bất thường.
+
 ## 2026-07-19 (daily)
 - gold ✓ 147.500 (SJC 144.500/147.500 qua crawl_gold.py, giavang.org, tăng ~0,6% so hôm qua 146.600; DOJI không lấy được hôm nay — update.giavang.doji.vn chưa có mốc cập nhật khớp ngày, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.490 (VCB API: mua tiền mặt 26.080, mua CK 26.110, bán 26.490; SBV central rỗng; không đổi so hôm qua)  fuel – kỳ 16/07 không đổi (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới)  gas – ngoài cửa sổ ngày 1-4 nên bỏ qua check tháng 08  rates skip  electricity skip
 - flags: (không có flag mới; validate.py: errors=0 flags=0; flags.json bị ghi đè rỗng do chạy không `--full` — chỉ quét 2 dòng gần nhất, hành vi thiết kế đã ghi nhận từ 2026-07-08, không phải mất dữ liệu CSV gốc)
