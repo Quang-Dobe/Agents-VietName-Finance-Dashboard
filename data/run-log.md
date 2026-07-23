@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-07-23 (daily)
+- gold ✓ 146.000 (SJC 142.000/146.000 qua crawl_gold.py, giavang.org, giảm ~1,0%/~0,3% so hôm qua 143.400/146.400; DOJI không lấy được hôm nay — update.giavang.doji.vn vẫn không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.500 (VCB API: mua tiền mặt 26.090, mua CK 26.120, bán 26.500; SBV central rỗng; giảm ~0,04% so hôm qua 26.510)  fuel – kỳ 16/07 không đổi (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới, dự kiến ~31/07)  gas – ngoài cửa sổ ngày 1-4 nên bỏ qua check tháng 08  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay thứ Năm nên rates & electricity skip theo lịch. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
+
 ## 2026-07-22 (daily)
 - gold ✓ 146.400 (SJC 143.400/146.400 qua crawl_gold.py, giavang.org, tăng ~0,27% so hôm qua 146.000; DOJI không lấy được hôm nay — update.giavang.doji.vn vẫn không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.510 (VCB API: mua tiền mặt 26.100, mua CK 26.130, bán 26.510; SBV central rỗng; tăng ~0,08% so hôm qua 26.490)  fuel – kỳ 16/07 không đổi (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới, dự kiến ~31/07)  gas – ngoài cửa sổ ngày 1-4 nên bỏ qua check tháng 08  rates skip  electricity skip
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
