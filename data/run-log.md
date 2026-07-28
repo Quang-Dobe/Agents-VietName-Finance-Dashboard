@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-07-28 (daily)
+- gold ✓ 143.000 (SJC 139.000/143.000 qua crawl_gold.py, giavang.org, tăng ~1,06%/~1,09% so hôm qua 137.500/141.500, dưới ngưỡng flag 5%/ngày; DOJI không lấy được hôm nay — update.giavang.doji.vn vẫn không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.520 (VCB API: mua tiền mặt 26.110, mua CK 26.140, bán 26.520; SBV central rỗng; tăng ~0,04% so hôm qua 26.510)  fuel – NO_CHANGE kỳ 23/07 (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới, dự kiến ~31/07)  gas – ngoài cửa sổ ngày 1-4 nên bỏ qua check tháng 08 (07/2026 đã có sẵn)  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay thứ Ba nên rates & electricity skip theo lịch. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
+
 ## 2026-07-27 (daily)
 - gold ✓ 141.500 (SJC 137.500/141.500 qua crawl_gold.py, giavang.org, không đổi so hôm qua 2026-07-26, dưới ngưỡng flag 5%/ngày; DOJI không lấy được hôm nay — update.giavang.doji.vn vẫn không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.510 (VCB API: mua tiền mặt 26.100, mua CK 26.130, bán 26.510; SBV central rỗng; không đổi so hôm qua)  fuel – NO_CHANGE kỳ 23/07 (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới, dự kiến ~31/07)  gas – ngoài cửa sổ ngày 1-4 nên bỏ qua check tháng 08 (07/2026 đã có sẵn)  rates ✓ 20 ngân hàng (2026-W31, 24hmoney, kỳ hạn 1/3/6/12, 24 tháng để trống; đối chiếu tay 80 cặp với 2026-W30 không có ngân hàng nào đổi >2 điểm%/tuần)  electricity – (QĐ 1279/QĐ-BCT 09/5/2025 vẫn hiện hành; 2 tin liên quan gần đây (NĐ 278/2026/NĐ-CP, VBHN 17/07/2026) chỉ đổi cơ chế điều chỉnh giá, không đổi biểu giá bậc thang)
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
