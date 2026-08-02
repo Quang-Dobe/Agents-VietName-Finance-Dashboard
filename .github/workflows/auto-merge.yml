@@ -7,6 +7,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  actions: write
 
 jobs:
   auto-merge:
@@ -20,3 +21,11 @@ jobs:
           gh pr merge --squash --delete-branch \
             "${{ github.event.pull_request.number }}" \
             --repo "${{ github.repository }}"
+      - name: Trigger Pages deploy
+        # Merge commit above was pushed with GITHUB_TOKEN, so pages.yml's
+        # `on: push` never fires (GitHub Actions anti-recursion rule).
+        # workflow_dispatch is exempt from that rule, so dispatch it explicitly.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run pages.yml --repo "${{ github.repository }}" --ref main
