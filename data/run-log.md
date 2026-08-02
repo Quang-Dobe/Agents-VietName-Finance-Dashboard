@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-08-02 (daily)
+- gold ✓ 141.000 (SJC 137.000/141.000 qua crawl_gold.py, giavang.org, giảm ~0,65% so hôm qua 137.900/141.900, dưới ngưỡng flag 5%/ngày; DOJI không lấy được hôm nay — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx – 26.490 (VCB API: mua tiền mặt 26.080, mua CK 26.110, bán 26.490; SBV central rỗng; không đổi so hôm qua)  fuel – NO_CHANGE kỳ 30/07 (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới)  gas – trong cửa sổ ngày 1-4 nhưng chưa có bài giá gas tháng 08 (đã kiểm vietnambiz.vn, thoibaotaichinhvietnam.vn, thêm alogas.vn nhưng chỉ có giá TPHCM mơ hồ không đủ tin cậy theo schema 3 miền; sẽ thử lại các ngày tới trong cửa sổ 1-4/8)  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay thứ Chủ nhật nên rates & electricity skip theo lịch. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
+
 ## 2026-08-01 (daily)
 - gold ✓ 141.900 (SJC 137.900/141.900 qua crawl_gold.py, giavang.org, tăng nhẹ ~0,14% so hôm qua 141.700, dưới ngưỡng flag 5%/ngày; DOJI không lấy được hôm nay — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.490 (VCB API: mua tiền mặt 26.080, mua CK 26.110, bán 26.490; SBV central rỗng; không đổi so hôm qua — VCF giữ giá cuối tuần theo giá đóng cửa thứ Sáu, `UpdatedDate` xác nhận đây là giá trả về đúng chứ không phải lỗi copy)  fuel – NO_CHANGE kỳ 30/07 (crawl_fuel.py --check → NO_CHANGE, kỳ mới vừa bắt đầu 2 ngày trước)  gas – trong cửa sổ ngày 1-4 nhưng chưa có bài giá gas tháng 08 (đã kiểm vietnambiz.vn/gia-gas/trang-1.html — bài mới nhất vẫn là 31/7; thoibaotaichinhvietnam.vn chưa có bài tháng 08 qua các URL thử; sẽ thử lại trong cửa sổ 1-4/8)  rates skip  electricity skip
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
@@ -146,7 +151,3 @@ Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu 
 - flags: gold nhảy >5% ngày 2026-02-03 (+6,3%), 2026-06-12 (+5,1%) — biến động thật, giữ.
 - ghi chú: allowlist đã mở cho webgia/vietcombank; sjc.com.vn còn chặn. DOJI lịch sử không có.
 
-## 2026-07-03 (seed P0)
-- gold ✓  fx ✓ (chỉ sell)  fuel ✓ (kỳ 01/07)  gas ✓ (07/2026)  electricity ✓ (QĐ 1279)  rates skip
-- flags: (không)
-- ghi chú: seed thủ công từ web search để khởi tạo dashboard; chưa bật routine daily.
