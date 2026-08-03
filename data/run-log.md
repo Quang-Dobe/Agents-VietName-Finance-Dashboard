@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-08-03 (daily)
+- gold ✓ 141.000 (SJC 137.000/141.000 qua crawl_gold.py, giavang.org, không đổi so hôm qua, dưới ngưỡng flag 5%/ngày; DOJI không lấy được hôm nay — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx – 26.490 (VCB API: mua tiền mặt 26.080, mua CK 26.110, bán 26.490; SBV central rỗng; không đổi so hôm qua)  fuel – NO_CHANGE kỳ 30/07 (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới)  gas – trong cửa sổ ngày 1-4 nhưng vẫn chưa có bài giá gas tháng 08 đủ tin cậy (đã thử lại vietnambiz.vn, thoibaotaichinhvietnam.vn, alogas.vn; alogas chỉ có giá khuyến mãi giao hàng 1 đại lý tư nhân TPHCM, không phải giá bán lẻ vùng miền chính thức, giữ đánh giá không dùng như 2 ngày trước)  rates ✓ 2026-W32 (20/20 ngân hàng, 24hmoney, không ngân hàng nào đổi lãi suất so với 2026-W31 — có vẻ nguồn chưa cập nhật số liệu tuần này)  electricity – (QĐ 1279/QĐ-BCT vẫn hiện hành, không có biểu giá mới; ghi chú kỹ thuật: URL dự phòng cũ trong CLAUDE.md trả về trang chủ, URL đúng hiện tại là dạng `/d/vi-VN/news/...`, chưa cập nhật vào CLAUDE.md vì không có thay đổi biểu giá cần self-heal)
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay thứ Hai nên chạy đủ 5 module. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
+
 ## 2026-08-02 (daily)
 - gold ✓ 141.000 (SJC 137.000/141.000 qua crawl_gold.py, giavang.org, giảm ~0,65% so hôm qua 137.900/141.900, dưới ngưỡng flag 5%/ngày; DOJI không lấy được hôm nay — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx – 26.490 (VCB API: mua tiền mặt 26.080, mua CK 26.110, bán 26.490; SBV central rỗng; không đổi so hôm qua)  fuel – NO_CHANGE kỳ 30/07 (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới)  gas – trong cửa sổ ngày 1-4 nhưng chưa có bài giá gas tháng 08 (đã kiểm vietnambiz.vn, thoibaotaichinhvietnam.vn, thêm alogas.vn nhưng chỉ có giá TPHCM mơ hồ không đủ tin cậy theo schema 3 miền; sẽ thử lại các ngày tới trong cửa sổ 1-4/8)  rates skip  electricity skip
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
@@ -144,10 +149,4 @@ Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu 
 ## 2026-07-04 (backfill gas, one-off)
 - gas ✓ (10 tháng 2025-07→2026-07, nguồn thoibaotaichinhvietnam.vn; miền Bắc/HN đầy đủ, CP có)
 - ghi chú: thiếu 2026-01/02/05; miền Trung/Nam thưa. Sửa validate.check_gas cho dữ liệu miền khuyết.
-
-## 2026-07-04 (backfill 1 năm, one-off)
-- gold ✓ (265 ngày, 2025-07-04→2026-07-03, nguồn webgia)  fx ✓ (364 ngày, VCB API)
-- fuel skip (nguồn ảnh)  gas skip  rates skip  electricity skip
-- flags: gold nhảy >5% ngày 2026-02-03 (+6,3%), 2026-06-12 (+5,1%) — biến động thật, giữ.
-- ghi chú: allowlist đã mở cho webgia/vietcombank; sjc.com.vn còn chặn. DOJI lịch sử không có.
 
