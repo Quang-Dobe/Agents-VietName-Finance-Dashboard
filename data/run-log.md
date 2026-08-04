@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-08-04 (daily)
+- gold ✓ 141.000 (SJC 137.500/141.000 qua crawl_gold.py, giavang.org, mua tăng nhẹ ~0,4% so hôm qua 137.000, bán giữ nguyên, dưới ngưỡng flag 5%/ngày; DOJI không lấy được hôm nay — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx – 26.480 (VCB API: mua tiền mặt 26.070, mua CK 26.100, bán 26.480; SBV central rỗng; giảm nhẹ ~0,04% so hôm qua)  fuel – NO_CHANGE kỳ 30/07 (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới)  gas ✓ tháng 08/2026 (miền Bắc 518.400 / miền Trung 538.000 / miền Nam 552.000, nguồn vietnambiz.vn "Giá gas hôm nay 3/8", CP rỗng — ngày cuối cửa sổ 1-4/8, cuối cùng tìm được bài đủ tin cậy sau 3 ngày chưa có; tăng 3,2-11,4% so tháng 07, dưới ngưỡng flag 30%/tháng)  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay thứ Ba nên rates & electricity skip theo lịch. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
+
 ## 2026-08-03 (daily)
 - gold ✓ 141.000 (SJC 137.000/141.000 qua crawl_gold.py, giavang.org, không đổi so hôm qua, dưới ngưỡng flag 5%/ngày; DOJI không lấy được hôm nay — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx – 26.490 (VCB API: mua tiền mặt 26.080, mua CK 26.110, bán 26.490; SBV central rỗng; không đổi so hôm qua)  fuel – NO_CHANGE kỳ 30/07 (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới)  gas – trong cửa sổ ngày 1-4 nhưng vẫn chưa có bài giá gas tháng 08 đủ tin cậy (đã thử lại vietnambiz.vn, thoibaotaichinhvietnam.vn, alogas.vn; alogas chỉ có giá khuyến mãi giao hàng 1 đại lý tư nhân TPHCM, không phải giá bán lẻ vùng miền chính thức, giữ đánh giá không dùng như 2 ngày trước)  rates ✓ 2026-W32 (20/20 ngân hàng, 24hmoney, không ngân hàng nào đổi lãi suất so với 2026-W31 — có vẻ nguồn chưa cập nhật số liệu tuần này)  electricity – (QĐ 1279/QĐ-BCT vẫn hiện hành, không có biểu giá mới; ghi chú kỹ thuật: URL dự phòng cũ trong CLAUDE.md trả về trang chủ, URL đúng hiện tại là dạng `/d/vi-VN/news/...`, chưa cập nhật vào CLAUDE.md vì không có thay đổi biểu giá cần self-heal)
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
@@ -145,8 +150,4 @@ Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu 
 ## 2026-07-04 (backfill fuel + rates, one-off)
 - fuel ✓ (8 kỳ 2025-08→2026-07, nguồn tuoitre; E5 đầy đủ, RON95 thưa)  rates ✓ (20 NH, 24hmoney, tuần 2026-W27)
 - ghi chú: E5 làm chuỗi chính (RON95 hay bị số tròn/thiếu). Sửa validate cho cột khuyết; fetch chịu IncompleteRead.
-
-## 2026-07-04 (backfill gas, one-off)
-- gas ✓ (10 tháng 2025-07→2026-07, nguồn thoibaotaichinhvietnam.vn; miền Bắc/HN đầy đủ, CP có)
-- ghi chú: thiếu 2026-01/02/05; miền Trung/Nam thưa. Sửa validate.check_gas cho dữ liệu miền khuyết.
 
