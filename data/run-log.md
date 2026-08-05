@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-08-05 (daily)
+- gold ✓ 140.500 (SJC 137.500/140.500 qua crawl_gold.py, giavang.org, bán giảm ~0,35% so hôm qua 141.000, mua không đổi, dưới ngưỡng flag 5%/ngày; DOJI không lấy được hôm nay — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.460 (VCB API: mua tiền mặt 26.050, mua CK 26.080, bán 26.460; SBV central rỗng; giảm nhẹ ~0,08% so hôm qua)  fuel – NO_CHANGE kỳ 30/07 (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới)  gas skip (tháng 08/2026 đã có sẵn, ngoài cửa sổ check 1-4)  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay thứ Tư nên rates & electricity skip theo lịch. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
+
 ## 2026-08-04 (daily)
 - gold ✓ 141.000 (SJC 137.500/141.000 qua crawl_gold.py, giavang.org, mua tăng nhẹ ~0,4% so hôm qua 137.000, bán giữ nguyên, dưới ngưỡng flag 5%/ngày; DOJI không lấy được hôm nay — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx – 26.480 (VCB API: mua tiền mặt 26.070, mua CK 26.100, bán 26.480; SBV central rỗng; giảm nhẹ ~0,04% so hôm qua)  fuel – NO_CHANGE kỳ 30/07 (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới)  gas ✓ tháng 08/2026 (miền Bắc 518.400 / miền Trung 538.000 / miền Nam 552.000, nguồn vietnambiz.vn "Giá gas hôm nay 3/8", CP rỗng — ngày cuối cửa sổ 1-4/8, cuối cùng tìm được bài đủ tin cậy sau 3 ngày chưa có; tăng 3,2-11,4% so tháng 07, dưới ngưỡng flag 30%/tháng)  rates skip  electricity skip
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
@@ -146,8 +151,4 @@ Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu 
 - gold ✓ 149.500 (SJC, tự self-heal: webgia trống bảng hôm nay → chuyển sang giavang.org + giavang.doji.vn)  fx ✓ 26.466  fuel – (kỳ 02/07 chưa đổi)  gas – (07/2026 đã có)  rates skip  electricity skip
 - flags: (không có flag mới hôm nay; 2 flag lịch sử gold 2026-02-03/2026-06-12 giữ nguyên)
 - ghi chú: sjc.com.vn vẫn 403 → sửa `crawl_gold.py` (parse_sjc dùng giavang.org, parse_doji dùng giavang.doji.vn, cả hai đã có sẵn allowlist, không cần thêm domain mới). Cập nhật ghi chú DOM trong CLAUDE.md.
-
-## 2026-07-04 (backfill fuel + rates, one-off)
-- fuel ✓ (8 kỳ 2025-08→2026-07, nguồn tuoitre; E5 đầy đủ, RON95 thưa)  rates ✓ (20 NH, 24hmoney, tuần 2026-W27)
-- ghi chú: E5 làm chuỗi chính (RON95 hay bị số tròn/thiếu). Sửa validate cho cột khuyết; fetch chịu IncompleteRead.
 
