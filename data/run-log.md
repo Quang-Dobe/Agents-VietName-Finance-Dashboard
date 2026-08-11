@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-08-11 (daily)
+- gold ✓ 144.100 (SJC 141.100/144.100 qua crawl_gold.py, giavang.org, tăng ~1,6% so lần chạy trước 08-06 141.800, dưới ngưỡng flag 5%/ngày; DOJI không lấy được — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.350 (VCB API: mua tiền mặt 25.940, mua CK 25.970, bán 26.350; SBV central rỗng; giảm ~0,4% so lần chạy trước)  fuel ✓ kỳ mới hiệu lực 2026-08-06 15h (ron95 22.324 / e5ron92 21.728 / diesel 27.544 / dầu hỏa rỗng — Petrolimex daily vẫn ảnh nên parse tay từ bài tuoitre.vn, giảm ~2,9% so kỳ 30/07, dưới ngưỡng flag 20%)  gas skip (tháng 08/2026 đã có sẵn từ 08-04, ngoài cửa sổ check 1-4)  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay thứ Ba nên rates & electricity skip theo lịch. **Gián đoạn 4 ngày** — lần chạy daily gần nhất trước đó là 2026-08-06 (#36); các ngày 08-07 đến 08-10 KHÔNG có run (kể cả 08-10 là thứ Hai, lẽ ra phải chạy rates+electricity). Không backfill dữ liệu gold/fx của những ngày đó (đúng nguyên tắc cấm backfill trong run daily) — CSV chỉ có 1 dòng nhảy thẳng 08-06→08-11. Kỳ điều hành xăng mới (hiệu lực 08-06) được bắt kịp bình thường vì fuel lưu theo effective_date/kỳ chứ không theo ngày chạy, không tính là backfill. Cần rà lại lịch chạy routine để tránh gián đoạn lặp lại; rates/electricity của tuần 08-10 coi như bỏ lỡ vĩnh viễn (không backfill). Không self-heal, không domain thiếu. site-builder OK 5/5 module.
+
 ## 2026-08-06 (daily)
 - gold ✓ 141.800 (SJC 138.800/141.800 qua crawl_gold.py, giavang.org, tăng ~0,93% so hôm qua 140.500, dưới ngưỡng flag 5%/ngày; DOJI không lấy được hôm nay — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.460 (VCB API: mua tiền mặt 26.050, mua CK 26.080, bán 26.460; SBV central rỗng; không đổi so hôm qua)  fuel – NO_CHANGE kỳ 30/07 (crawl_fuel.py --check → NO_CHANGE, chưa tới hạn kỳ mới)  gas skip (ngoài cửa sổ check 1-4, tháng 08/2026 đã có sẵn)  rates skip  electricity skip
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
@@ -147,7 +152,3 @@ Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu 
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
 - ghi chú: không domain thiếu. Cập nhật CLAUDE.md mục Xăng dầu với quy trình fallback đọc ảnh tay khi tuoitre chưa đăng bài kỳ mới (không sửa `parse_prices` vì regex không đọc được ảnh).
 
-## 2026-07-08 (daily, chạy lại)
-- gold ✓ 148.500 (SJC/DOJI cùng giavang.org+giavang.doji.vn, giá real-time giảm so lần chạy trước cùng ngày 149.500 → 148.500)  fx – 26.466 (không đổi)  fuel – (kỳ 02/07 chưa đổi, chưa tới hạn kỳ mới ~11-12/07)  gas – (07/2026 đã có, chưa tới tháng 08)  rates skip  electricity skip
-- flags: (không có flag mới; validate.py không --full chỉ quét 2 dòng gần nhất nên 2 flag lịch sử gold 2026-02-03/2026-06-12 không còn xuất hiện trong flags.json — đây là hành vi thiết kế của script, không phải mất dữ liệu, số liệu CSV gốc không đổi)
-- ghi chú: không self-heal, không domain thiếu. Đây là lần chạy thứ 2 trong ngày (giờ ~18:05 VN theo lịch daily); giá vàng biến động trong ngày là bình thường.
