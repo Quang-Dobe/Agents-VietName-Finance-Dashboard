@@ -26,3 +26,19 @@ Ghi lại dòng nào từ đâu: seed ban đầu, backfill, hay crawl trực ti�
 
 > FLAG hợp lệ sau backfill: vàng nhảy >5% ngày 2026-02-03 (+6,3%) và 2026-06-12
 > (+5,1%) — biến động thật trong đợt vàng tăng mạnh đầu 2026, giữ nguyên, site hiện ⚠.
+
+## Gap catch-up 2026-08-11 (one-off, không phải daily)
+
+Session daily bị gián đoạn 4 ngày (08-07→08-10, không có run nào — xem
+`data/run-log.md` mục 2026-08-11). Chạy `backfill_gold.py`/`backfill_fx.py`
+một lần cho đúng khoảng thiếu để lấp đầy CSV.
+
+| Module | Khoảng | Nguồn | Kết quả |
+|---|---|---|---|
+| gold (SJC) | 2026-08-07 → 2026-08-10 | `webgia.com/gia-vang/sjc/DD-MM-YYYY.html` | ok=3 (07,08,10), skip=1 (09 CN không có bảng chốt, đúng theo quy tắc ngày nghỉ), 0 fail. DOJI trống (webgia không có lịch sử DOJI). |
+| fx (VCB) | 2026-08-07 → 2026-08-10 | VCB API `?date=YYYY-MM-DD` | 4/4 ngày, 0 fail. `sbv_central` trống (backfill không lấy SBV). |
+| rates | tuần 2026-W33 (lẽ ra thu thứ Hai 08-10, bị lỡ) | `24hmoney.vn/lai-suat-gui-ngan-hang` (live, thu muộn 08-11) | Không phải backfill lịch sử thật — hôm thu (08-11, thứ Ba) vẫn nằm trong cùng tuần ISO 2026-W33 nên là snapshot hợp lệ của tuần đó, chỉ trễ 1 ngày so với lịch thứ Hai. Không tìm được snapshot Wayback nào của 24hmoney gần 08-10 (CDX chỉ có bản 2026-08-05, thuộc tuần W32) nên không cần dùng web.archive. |
+| electricity | 08-07 → 08-11 | evn.com.vn | Check catch-up cho thứ Hai bị lỡ — xem kết quả trong `run-log.md`. |
+
+Không backfill rates/electricity cho các ngày TRƯỚC 08-10 (không thuộc lịch
+thu thập — chỉ thu thứ Hai hằng tuần) — không có gì để lấp cho những ngày đó.
