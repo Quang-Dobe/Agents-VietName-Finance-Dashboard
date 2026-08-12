@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-08-12 (daily)
+- gold ✓ 143.500 (SJC 140.500/143.500 qua crawl_gold.py, giavang.org, giảm ~0,4% so hôm qua 141.100/144.100, dưới ngưỡng flag 5%/ngày; DOJI không lấy được — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.320 (VCB API: mua tiền mặt 25.910, mua CK 25.940, bán 26.320; SBV central rỗng; giảm ~0,11% so hôm qua)  fuel – NO_CHANGE kỳ hiện tại 2026-08-06 (crawl_fuel.py --check → NO_CHANGE)  gas – ngoài cửa sổ check 1-4, tháng 08/2026 đã có sẵn  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay thứ Tư nên rates & electricity skip theo lịch. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
+
 ## 2026-08-11 (daily)
 - gold ✓ 144.100 (SJC 141.100/144.100 qua crawl_gold.py, giavang.org, tăng ~1,6% so lần chạy trước 08-06 141.800, dưới ngưỡng flag 5%/ngày; DOJI không lấy được — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.350 (VCB API: mua tiền mặt 25.940, mua CK 25.970, bán 26.350; SBV central rỗng; giảm ~0,4% so lần chạy trước)  fuel ✓ kỳ mới hiệu lực 2026-08-06 15h (ron95 22.324 / e5ron92 21.728 / diesel 27.544 / dầu hỏa rỗng — Petrolimex daily vẫn ảnh nên parse tay từ bài tuoitre.vn, giảm ~2,9% so kỳ 30/07, dưới ngưỡng flag 20%)  gas skip (tháng 08/2026 đã có sẵn từ 08-04, ngoài cửa sổ check 1-4)  rates catch-up  electricity catch-up
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
@@ -148,8 +153,4 @@ Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu 
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
 - ghi chú: không self-heal, không domain thiếu. Build trên nhánh nối tiếp PR #3 (2026-07-09) vì PR đó chưa merge vào lúc chạy, giữ đúng thứ tự ngày trong CSV.
 
-## 2026-07-09 (daily)
-- gold ✓ 149.000 (SJC/DOJI, giavang.org+giavang.doji.vn, không self-heal)  fx ✓ 26.471 (VCB, SBV central rỗng)  fuel ✓ kỳ 09/07 (20.000/19.190/21.740/21.610 — tuoitre chưa đăng bài kỳ mới nên đọc tay ảnh giabanle.jpg từ thông cáo Petrolimex 40/2026/PLX-TCBC, chọn đúng dòng III/II phổ thông, ghi fallback vào CLAUDE.md)  gas – (07/2026 đã có, chưa tới hạn tháng 08)  rates skip  electricity skip
-- flags: (không có flag mới; validate.py: errors=0 flags=0)
-- ghi chú: không domain thiếu. Cập nhật CLAUDE.md mục Xăng dầu với quy trình fallback đọc ảnh tay khi tuoitre chưa đăng bài kỳ mới (không sửa `parse_prices` vì regex không đọc được ảnh).
 
