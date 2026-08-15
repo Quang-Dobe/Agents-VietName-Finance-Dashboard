@@ -42,3 +42,19 @@ một lần cho đúng khoảng thiếu để lấp đầy CSV.
 
 Không backfill rates/electricity cho các ngày TRƯỚC 08-10 (không thuộc lịch
 thu thập — chỉ thu thứ Hai hằng tuần) — không có gì để lấp cho những ngày đó.
+
+## Gap catch-up 2026-08-15 (one-off, không phải daily)
+
+Daily 08-13/08-14 (Thứ Năm/Sáu) không có run nào (lần gần nhất trước là 08-12,
+sau là 08-15). Chạy `backfill_gold.py`/`backfill_fx.py` một lần cho đúng khoảng
+thiếu để lấp đầy CSV.
+
+| Module | Khoảng | Nguồn | Kết quả |
+|---|---|---|---|
+| gold (SJC) | 2026-08-13 → 2026-08-14 | `webgia.com/gia-vang/sjc/DD-MM-YYYY.html` | ok=2, 0 skip, 0 fail. DOJI trống (webgia không có lịch sử DOJI). 08-13: 141.300/144.300; 08-14: 140.300/143.300. |
+| fx (VCB) | 2026-08-13 → 2026-08-14 | VCB API `?date=YYYY-MM-DD` | 2/2 ngày, 0 fail. `sbv_central` trống (backfill không lấy SBV). 08-13: 25.840/25.870/26.250; 08-14: 25.920/25.950/26.330. |
+
+08-09 (Chủ nhật) vẫn để trống cho gold — đúng thiết kế (không có bảng chốt cuối
+tuần), không phải gap cần lấp. Không backfill rates/electricity/gas cho
+08-13/08-14 — không thuộc lịch thu thập (rates/electricity chỉ thứ Hai, gas chỉ
+đầu tháng), không có gì để lấp.
