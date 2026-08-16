@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-08-16 (daily)
+- gold ✓ 144.000 (SJC 141.000/144.000 qua crawl_gold.py, giavang.org, không đổi so 08-15; DOJI không lấy được — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.330 (VCB API: mua tiền mặt 25.920, mua CK 25.950, bán 26.330; SBV central rỗng; không đổi so 08-15)  fuel – kỳ hiện tại 2026-08-13 vẫn còn hiệu lực, không có kỳ mới  gas – ngoài cửa sổ check 1–4, tháng 08/2026 đã có sẵn  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay Chủ Nhật nên rates & electricity skip theo lịch. Giá vàng/tỷ giá trùng 08-15 (và fx còn trùng cả 08-14) do cuối tuần thị trường không cập nhật — khớp pattern đã ghi nhận hợp lệ trước đây, không phải copy tay. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
+
 ## 2026-08-15 (gap-catchup)
 - gold ✓ backfill 08-13→08-14 (webgia.com/gia-vang/sjc/DD-MM-YYYY.html): ok=2 skip=0 fail=0 — 08-13 141.300/144.300, 08-14 140.300/143.300, DOJI trống (không có nguồn lịch sử). 08-09 vẫn trống, đúng thiết kế (Chủ nhật không có bảng chốt), không phải gap.
 - fx ✓ backfill 08-13→08-14 (VCB API): 2/2 ngày — 08-13 25.840/25.870/26.250, 08-14 25.920/25.950/26.330, SBV central trống.
@@ -150,9 +155,5 @@ Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu 
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
 - ghi chú: thứ Hai nên chạy đủ 5 module. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
 
-## 2026-07-12 (daily)
-- gold ✓ 149.900 (SJC/DOJI, giavang.org+giavang.doji.vn qua crawl_gold.py, không đổi so hôm qua — giá cuối tuần giữ nguyên, không self-heal)  fx ✓ 26.470 (VCB API, vcb_buy_cash 26.060/vcb_buy_transfer 26.090, không đổi so hôm qua, SBV central rỗng)  fuel – kỳ 09/07 không đổi (chưa tới hạn kỳ mới, dự kiến ~19-20/07)  gas – (07/2026 đã có, chưa tới hạn tháng 08)  rates skip  electricity skip
-- flags: (không có flag mới; validate.py: errors=0 flags=0)
-- ghi chú: không self-heal, không domain thiếu. Giá vàng/tỷ giá trùng với 2026-07-11 do cuối tuần thị trường không cập nhật — xác nhận là dữ liệu thật từ 2 lần crawl độc lập, không phải copy tay.
 
 
