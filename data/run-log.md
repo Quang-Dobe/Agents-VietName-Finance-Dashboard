@@ -2,6 +2,11 @@
 
 Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu mới · – = check không có gì mới · ✗ = fail · skip = không đến lịch.
 
+## 2026-08-19 (daily)
+- gold ✓ 142.700 (SJC 139.700/142.700 qua crawl_gold.py, giavang.org, giảm ~0,9% so 08-16 141.000/144.000, dưới ngưỡng flag 5%/ngày; DOJI không lấy được — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.370 (VCB API: mua tiền mặt 25.960, mua CK 25.990, bán 26.370; SBV central rỗng; tăng ~0,15% so 08-16)  fuel – kỳ hiện tại 2026-08-13 vẫn còn hiệu lực, không có kỳ mới  gas – ngoài cửa sổ check 1–4, tháng 08/2026 đã có sẵn  rates skip  electricity skip
+- flags: (không có flag mới; validate.py: errors=0 flags=0)
+- ghi chú: hôm nay thứ Tư nên rates & electricity skip theo lịch. Khoảng trống 08-17/08-18 (T7/CN, không có giá chốt) không phải backfill, đúng thiết kế. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
+
 ## 2026-08-16 (daily)
 - gold ✓ 144.000 (SJC 141.000/144.000 qua crawl_gold.py, giavang.org, không đổi so 08-15; DOJI không lấy được — update.giavang.doji.vn tiếp tục không ổn định, để rỗng theo thiết kế, không self-heal)  fx ✓ 26.330 (VCB API: mua tiền mặt 25.920, mua CK 25.950, bán 26.330; SBV central rỗng; không đổi so 08-15)  fuel – kỳ hiện tại 2026-08-13 vẫn còn hiệu lực, không có kỳ mới  gas – ngoài cửa sổ check 1–4, tháng 08/2026 đã có sẵn  rates skip  electricity skip
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
@@ -149,11 +154,5 @@ Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu 
 - gold ✓ 148.400 (SJC/DOJI cùng 145.400/148.400, giavang.org+giavang.doji.vn qua crawl_gold.py, giảm ~1% so hôm qua 149.900, không self-heal)  fx ✓ 26.460 (VCB API: mua tiền mặt 26.050, mua CK 26.080, bán 26.460; SBV central rỗng; giảm ~0,04% so hôm qua)  fuel – kỳ 09/07 không đổi (chưa tới hạn kỳ mới, dự kiến ~19-20/07)  gas – (07/2026 đã có, chưa tới hạn tháng 08)  rates skip  electricity skip
 - flags: (không có flag mới; validate.py: errors=0 flags=0)
 - ghi chú: hôm nay thứ Ba nên rates & electricity skip theo lịch. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
-
-## 2026-07-13 (daily)
-- gold ✓ 149.900 (SJC/DOJI cùng 146.900/149.900, giavang.org+giavang.doji.vn qua crawl_gold.py, không self-heal)  fx ✓ 26.470 (VCB API: mua tiền mặt 26.060, mua CK 26.090, bán 26.470; SBV central rỗng)  fuel – kỳ 09/07 không đổi (chưa tới hạn kỳ mới, dự kiến ~19-20/07)  gas – (07/2026 đã có, chưa tới hạn tháng 08)  rates ✓ 20 ngân hàng (2026-W29, 24hmoney, kỳ hạn 1/3/6/12, 24 tháng để trống)  electricity – (QĐ 1279/QĐ-BCT vẫn hiện hành; NĐ 278/2026/NĐ-CP mới chỉ đổi thẩm quyền điều chỉnh giá bình quân, không đổi biểu giá bậc thang)
-- flags: (không có flag mới; validate.py: errors=0 flags=0)
-- ghi chú: thứ Hai nên chạy đủ 5 module. Không self-heal, không domain thiếu. site-builder OK 5/5 module.
-
 
 
