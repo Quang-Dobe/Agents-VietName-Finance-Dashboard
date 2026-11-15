@@ -156,6 +156,12 @@ Ngân hàng thiếu trong nguồn tuần đó → bỏ qua, không fail cả mod
     "0,001S-V" (cao cấp, ~23.000-24.000).
   - `dau_hoa` = "Dầu hỏa 2-K".
   - Vùng 1 = cột đầu tiên sau "Đơn vị tính".
+  - **Từ kỳ 2026-10-01** Petrolimex đổi tên mặt hàng sang "Mức": `ron95` = "E10 RON 95 Mức 3",
+    `e5ron92` = "E5 RON 92 Mức 2", `diesel` = "Điêzen 0,05S Mức 2" (gán theo suy đoán, khớp liên tục
+    với giá cũ). E5 có thể cao hơn RON95 (10-22, 10-29, 11-01) — đọc đúng ảnh, không sửa.
+  - Danh sách thông cáo: `petrolimex.com.vn/ndi/thong-cao-bao-chi` (phân trang `/2.html`…`/5.html`, đọc được
+    bằng curl); ảnh ở `files.petrolimex.com.vn/jpgs/…`. Bài kiểu "chủ động giảm giá" không có "dieu-chinh"
+    trong URL nên `crawl_fuel.py` có thể bỏ sót.
 
 ### Lãi suất — `scripts/crawl_rates.py`
 - **`https://24hmoney.vn/lai-suat-gui-ngan-hang` (CHÍNH, xác nhận live 2026-07-04):**

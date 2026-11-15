@@ -4,7 +4,7 @@ Mỗi run append 1 mục, giữ ≤30 mục gần nhất. ✓ = có dữ liệu 
 
 ## 2026-11-15 (gap-catchup)
 - gold ✓ 08-20..11-14: ok=63 skip=24 (cuối tuần/lễ không có bảng webgia, DOJI rỗng)  fx ✓ 08-20..11-14: 87 ngày (VCB API)
-- fuel ✓ một phần: chỉ thêm kỳ 2026-11-05 (tuoitre, chưa đối chiếu Petrolimex). Kỳ 2026-10-29 BỎ vì số không nhất quán (e5ron92 > ron95, giảm 4,6k vs bài nói 2k). Còn thiếu các kỳ cuối 08 → 10 và 10-15.
+- fuel ✓ 13 kỳ 2026-08-20..11-03 thêm từ ảnh Petrolimex (vùng 1) + sửa 11-05 (tuoitre 21156/20898/28696 → ảnh 21150/20890/28690/28600). Kỳ 10-29 trước đó bị bỏ nhầm — ảnh xác nhận số thật. Từ 10-01 Petrolimex đổi tên 'Mức'; E5 Mức 2 > E10 Mức 3 ở 10-22, 10-29, 11-01 (đọc đúng ảnh, giữ nguyên). Dòng 11-12 chưa đối chiếu lại.
 - gas ✓ một phần: thêm 2026-09 và 2026-11 (vietnambiz; thoibaotaichinhvietnam 410). 2026-10 BỎ: nguồn mâu thuẫn (644.122 đầu tháng vs 598k cuối tháng). cp_usd_ton rỗng. 2026-05 vẫn thiếu.
 - rates ✓ 4/11 tuần: W37, W40, W43, W44 từ snapshot web.archive 24hmoney (collected_at = ngày snapshot, không rơi đúng thứ Hai). W35, W36, W38, W39, W41, W42, W45 không có snapshot → bỏ trống.
 - electricity: không kiểm.
